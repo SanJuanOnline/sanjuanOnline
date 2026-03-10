@@ -4,7 +4,7 @@
 Usuario entra al sitio
       │
       ▼
-Spinner de carga
+Spinner de carga 
       │
       ▼
 Landing principal SanJuanOnline
@@ -13,20 +13,20 @@ Landing principal SanJuanOnline
 Selecciona categoría
       │
       ▼
-Grid de negocios
+Grid de negocios por catregorias
       │
       ▼
-Click tarjeta
+Click tarjeta del negocio
 
- ├─ tipo externo
+ ├─ abre la informacion del negocio  ya sea en 
  │      │
  │      ▼
- │   abrir URL negocio
+ │    URL negocio su propai web
 
- └─ tipo landing
+ └─  landing basica creada por San Juan Online
         │
         ▼
-    LandingClientes.tsx
+    LandingClientes.tsx con botones de contacto
         │
         ▼
 Render dinámico de secciones
