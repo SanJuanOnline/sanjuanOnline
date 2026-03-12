@@ -1,57 +1,38 @@
-"use client";
 
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
-import { useState, useEffect } from "react";
-import Spinner from "@/src/componentes/Spinner";
+import { ThemeProvider } from "@/src/componentes/ThemeProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+export const metadata: Metadata = {
+  title: "San Juan Online",
+  description: "Tu guía de confianza para explorar y disfrutar de la Ciudad de San Juan.",
+  manifest: "/manifest.json",
+};
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+export const viewport: Viewport = {
+  themeColor: "#09090b",
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [loading, setLoading] = useState(true);
-  const [progreso, setProgreso] = useState(0);
-
-  useEffect(() => {
-    const duracionTotal = 3000; // 3 segundos
-    const intervalo = 30; // Actualización cada 30ms
-    const incremento = 100 / (duracionTotal / intervalo);
-
-    const timer = setInterval(() => {
-      setProgreso((prev) => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          setTimeout(() => setLoading(false), 200);
-          return 100;
-        }
-        return prev + incremento;
-      });
-    }, intervalo);
-
-    return () => clearInterval(timer);
-  }, []);
-
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
       >
-        {loading ? (
-          <Spinner progreso={Math.min(progreso, 100)} />
-        ) : (
-          children
-        )}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

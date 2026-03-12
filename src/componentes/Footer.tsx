@@ -1,45 +1,86 @@
 
-"use client";
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
 const Footer = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const linkSections = [
+    {
+      title: 'Categorías',
+      links: [
+        { href: '/comida-rapida', label: 'Comida Rápida' },
+        { href: '/restaurantes', label: 'Restaurantes' },
+        { href: '/entretenimiento', label: 'Entretenimiento' },
+        { href: '/servicios', label: 'Servicios' },
+      ],
+    },
+    {
+      title: 'Sobre Nosotros',
+      links: [
+        { href: '/acerca-de', label: '¿Quiénes somos?' },
+        { href: '/contacto', label: 'Contacto' },
+        { href: '/unete', label: 'Únete al Directorio' },
+      ],
+    },
+    {
+      title: 'Legal',
+      links: [
+        { href: '/terminos', label: 'Términos y Condiciones' },
+        { href: '/privacidad', label: 'Política de Privacidad' },
+      ],
+    },
+  ];
 
-  const handleScroll = () => {
-    if (window.scrollY > 200) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  const socialLinks = [
+    { href: 'https://facebook.com', icon: <Facebook /> },
+    { href: 'https://twitter.com', icon: <Twitter /> },
+    { href: 'https://instagram.com', icon: <Instagram /> },
+    { href: 'https://linkedin.com', icon: <Linkedin /> },
+  ];
 
   return (
-    <footer
-      className={`fixed bottom-0 left-0 w-full bg-gray-800 text-white p-4 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      <div className="container mx-auto flex justify-between items-center">
-        <div>
-          <Link href="/privacy-policy" className="mr-4">Política de Privacidad</Link>
-          <Link href="/hook-policy" className="mr-4">Política de Hook</Link>
-          <Link href="#" className="mr-4">Link 3</Link>
-          <Link href="#" className="mr-4">Link 4</Link>
-          <Link href="#" className="mr-4">Link 5</Link>
-          <Link href="#" className="mr-4">Link 6</Link>
-          <Link href="#">Link 7</Link>
+    <footer className="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+      <div className="container mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Logo and mission */}
+          <div className="col-span-1 md:col-span-2 lg:col-span-1">
+             <Link href="/" className="flex items-center space-x-2">
+                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 21V3M3 12h18" /></svg>
+                <span className="text-xl font-bold text-gray-800 dark:text-white">SanJuanOnline</span>
+            </Link>
+            <p className="mt-4 text-gray-600 dark:text-gray-400 max-w-xs">
+              Conectando negocios locales con el mundo digital en San Juan de la Maguana.
+            </p>
+          </div>
+
+          {/* Link sections */}
+          {linkSections.map((section) => (
+            <div key={section.title}>
+              <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">{section.title}</h3>
+              <ul className="space-y-2">
+                {section.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div>
-          <p>
-            &copy; 2024 <a href="https://enriquevargas.vercel.app" target="_blank" rel="noopener noreferrer">
-              <span className="text-cyan-400">Enrique</span> <span className="text-green-400">Vargas</span>
-            </a>
+
+        {/* Bottom bar */}
+        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row justify-between items-center">
+          <p className="text-gray-500 dark:text-gray-400 text-sm">
+            &copy; {new Date().getFullYear()} SanJuanOnline. Creado por Enrique Vargas.
           </p>
+          <div className="flex space-x-4 mt-4 sm:mt-0">
+            {socialLinks.map((social) => (
+              <a key={social.href} href={social.href} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500 dark:hover:text-blue-400">
+                {social.icon}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
