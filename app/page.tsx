@@ -1,5 +1,4 @@
-import React from 'react';
-import Home from '@/src/paginas/Home';
+import Home from "../paginas/Home";
 
 export default function Page() {
   return <Home />;

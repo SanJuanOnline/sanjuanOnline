@@ -1,8 +1,17 @@
+import Header from "../../componentes/Header";
+import Footer from "../../componentes/Footer";
 
-import CategoriaGenerica from '../../src/paginas/CategoriaGenerica';
-
-const MantenimientoPage = () => {
-  return <CategoriaGenerica categoria="Mantenimiento" />;
-};
-
-export default MantenimientoPage;
+export default function MantenimientoPage() {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 flex items-center justify-center bg-slate-50">
+        <div className="text-center">
+          <h1 className="text-5xl font-black text-slate-800 mb-4">Mantenimiento</h1>
+          <p className="text-xl text-slate-600">Hola, soy la página de Mantenimiento</p>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+}

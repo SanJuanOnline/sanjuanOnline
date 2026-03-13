@@ -72,10 +72,14 @@ Instalar las siguientes librerías al iniciar el proyecto:
 *Objetivo: Crear las páginas individuales de cada negocio aisladas del resto.*
 
 ### FASE 4: Estructura de Rutas Dinámicas (SLUGs)
-1.  **Creación de Carpetas:**
-    *   Crear estructura en `app/` para las categorías principales con slugs dinámicos: `comida-rapida`, `restaurantes`, `entretenimiento`, `servicios`, `mantenimiento`, `salud`, `hoteles`.
-    *   **Importante:** Dentro de cada categoría, crear la subcarpeta `[slug]` para las páginas de negocio (Ej: `comida-rapida/[slug]/page.tsx`).
-    *   Esto permite URLs como: `comida-rapida/tortas-juan`.
+1.  **Creación de Carpetas de Categorías:**
+    *   Crear estructura en `app/` para las categorías principales: `comida-rapida`, `restaurantes`, `entretenimiento`, `servicios`, `mantenimiento`, `salud`, `hoteles`.
+    *   Cada carpeta contiene `page.tsx` que renderiza `<CategoriaGenerica categoria="nombre" />`.
+2.  **Ruta Unificada para Landings:**
+    *   Crear carpeta `app/negocio/[slug]/page.tsx` para TODAS las landings de negocios.
+    *   Esta ruta unificada recibe el slug y renderiza `<LandingClientes />`.
+    *   URLs resultantes: `/negocio/tortas-juan`, `/negocio/hotel-paraiso`, etc.
+    *   **Importante:** NO crear `[slug]` dentro de cada categoría. Usar ruta centralizada.
 
 ### FASE 5: Componente LandingNegocio (`LandingClientes.tsx`)
 1.  **Arquitectura del Componente:**
@@ -94,16 +98,24 @@ Instalar las siguientes librerías al iniciar el proyecto:
 *Objetivo: Conectar Home con las Landings a través de las tarjetas.*
 
 ### FASE 6: TarjetaNegocios.tsx y Categorías
-1.  **Componente `TarjetaNegocios.tsx`:**
-    *   Renderiza datos del array correctamente.
-    *   Crear 3 variantes:
-        *   **VIP:** Grande y muy llamativa.
-        *   **Estándar:** Mitad de tamaño.
-        *   **Básica:** Pequeña (relleno).
-2.  **Conexión:**
-    *   Conectar cada tarjeta a su categoría y slug correspondiente (`/${categoria}/${slug}`).
-    *   Verificar navegación correcta según `FLUJO.md`.
-3.  **Verificación:** Correr `build`.
+1.  **Componente `TarjetaNegocio.tsx`:**
+    *   Renderiza datos del array `negocios.db.ts` correctamente.
+    *   Crear 3 variantes según `planSuscripcion`:
+        *   **VIP:** Ocupa 4 cols (md) / 6 cols (lg). Grande, gradientes accent, badge destacado.
+        *   **Estándar:** Ocupa 2 cols (md) / 3 cols (lg). Tamaño medio, colores primary.
+        *   **Básica:** Ocupa 2 cols (md) / 2 cols (lg). Pequeña, colores neutros.
+    *   Lógica de navegación:
+        *   Si `tipoEnlace === "externo"` → `window.open(urlExterna, "_blank")`
+        *   Si `tipoEnlace === "landing"` → `router.push(/negocio/${slug})`
+2.  **Componente `CategoriaGenerica.tsx`:**
+    *   Recibe prop `categoria` (string).
+    *   Filtra negocios: `negocios.filter(n => n.categoria === categoria)`.
+    *   Ordena por prioridad: VIP → Estándar → Básico.
+    *   Grid responsivo: `grid-cols-1 md:grid-cols-4 lg:grid-cols-6` para que respete los `col-span` dinámicos.
+    *   Renderiza header con icono, nombre de categoría y contador.
+3.  **Páginas de Categorías:**
+    *   Cada categoría (comida-rapida, restaurantes, etc.) tiene su `page.tsx` que renderiza `<CategoriaGenerica categoria="nombre-categoria" />`.
+4.  **Verificación:** Correr `build`.
 
 ---
 
@@ -136,3 +148,60 @@ Instalar las siguientes librerías al iniciar el proyecto:
     *   Lógica de autollenado de páginas al registrar.
     *   Lógica de llenado automático del formulario.
 ```
+
+
+---
+
+# 🔴 LÍNEA DE CORTE - SESIÓN 13 MARZO 2026 🔴
+
+## ✅ COMPLETADO HOY
+
+### Sistema de Diseño
+- ✅ Paleta de colores profesional (Primary azul, Accent dorado, Success verde)
+- ✅ Spinner mejorado con gradientes y animaciones
+- ✅ Home rediseñado completamente (Hero, Categorías, Misión, Stats)
+- ✅ Header y Footer actualizados con nueva paleta
+- ✅ TarjetaNegocio con 3 variantes (VIP, Estándar, Básica)
+
+### Estructura de Rutas
+- ✅ Carpetas [slug] creadas para todas las categorías
+- ✅ CategoriaGenerica.tsx (componente reutilizable)
+- ✅ Páginas de categorías funcionando
+
+### Landing (Parcial)
+- ✅ LandingClientes.tsx mejorado
+- ✅ SeccionBanner.tsx con diseño profesional
+
+## 🚧 CONTINUAR MAÑANA DESDE AQUÍ
+
+### Prioridad 1: Completar Secciones de Landing
+- [ ] SeccionInformacion.tsx
+- [ ] SeccionProductos.tsx
+- [ ] SeccionGaleria.tsx
+- [ ] SeccionTestimonios.tsx
+- [ ] SeccionContacto.tsx
+- [ ] HeaderLanding.tsx
+- [ ] FooterLanding.tsx
+- [ ] BotonesContacto.tsx (flotantes)
+
+### Prioridad 2: Modal de Registro (FASE 7)
+- [ ] ModalRegistro.tsx mejorado
+- [ ] FormularioGratis.tsx con contador 0-100
+
+### Prioridad 3: Ajustes y Cuenta (FASE 8)
+- [ ] Ajustes.tsx (modo oscuro, descarga app)
+- [ ] Cuenta.tsx (perfil usuario)
+
+**Archivos principales modificados hoy:**
+- tailwind.config.js
+- globals.css
+- Spinner.tsx
+- Home.tsx
+- Header.tsx
+- Footer.tsx
+- TarjetaNegocio.tsx
+- CategoriaGenerica.tsx (nuevo)
+- LandingClientes.tsx
+- SeccionBanner.tsx
+
+**Última actualización:** 13 Marzo 2026, 05:46 AM

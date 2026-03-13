@@ -1,69 +1,98 @@
-
 "use client";
-import { useTheme } from "next-themes";
-import { Sun, Moon, Download, Star } from 'lucide-react';
 
-const AjustesPage = () => {
-  const { theme, setTheme } = useTheme();
+import { Settings, Moon, Sun, Download } from "lucide-react";
+import { useTema } from "../../context/TemaContext";
+import Header from "../../componentes/Header";
+import Footer from "../../componentes/Footer";
+import { useEffect, useState } from "react";
 
-  const handleDownload = () => {
-    window.open('https://play.google.com/store', '_blank');
-  };
+export default function AjustesPage() {
+  const { modoOscuro, toggleModoOscuro } = useTema();
+  const [montado, setMontado] = useState(false);
 
-  const handleZonaVip = () => {
-    alert('Acceso a Zona VIP - ¡Próximamente!');
-  };
+  useEffect(() => {
+    setMontado(true);
+  }, []);
+
+  if (!montado) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 bg-slate-50 p-8">
+          <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+            <p>Cargando...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto p-4 md:p-8 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
-      <div className="max-w-md mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-8 border-b pb-4 dark:border-gray-700">Ajustes</h1>
-        
-        <div className="space-y-6">
-          {/* Modo Oscuro */}
-          <div 
-            className="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          >
-            <div className="flex items-center">
-              <Sun className="w-6 h-6 mr-3 text-yellow-500" />
-              <span className="font-medium">Modo Claro / Oscuro</span>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 bg-slate-50 dark:bg-slate-900 p-8">
+        <div className="max-w-2xl mx-auto bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-16 h-16 bg-slate-700 dark:bg-slate-600 rounded-full flex items-center justify-center">
+              <Settings className="w-8 h-8 text-white" />
             </div>
-            <div className="relative">
-               {theme === 'dark' ? <Moon className="w-6 h-6 text-blue-500" /> : <Sun className="w-6 h-6 text-yellow-500" />} 
+            <div>
+              <h1 className="text-3xl font-black text-slate-800 dark:text-white">Ajustes</h1>
+              <p className="text-slate-600 dark:text-slate-400">Configuración de la app</p>
             </div>
           </div>
 
-          {/* Descargar App */}
-          <div 
-            className="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            onClick={handleDownload}
-          >
-            <div className="flex items-center">
-              <Download className="w-6 h-6 mr-3 text-green-500" />
-              <span className="font-medium">Descargar la App</span>
+          <div className="space-y-4">
+            {/* Modo Oscuro */}
+            <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
+              <div className="flex items-center gap-3">
+                {modoOscuro ? (
+                  <Moon className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+                ) : (
+                  <Sun className="w-5 h-5 text-slate-600" />
+                )}
+                <span className="font-semibold dark:text-white">Modo Oscuro</span>
+              </div>
+              <button 
+                onClick={toggleModoOscuro}
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
+                  modoOscuro 
+                    ? 'bg-amber-500 text-white' 
+                    : 'bg-slate-200 text-slate-800'
+                }`}
+              >
+                {modoOscuro ? 'Activado' : 'Desactivado'}
+              </button>
             </div>
-          </div>
 
-          {/* Zona VIP */}
-          <div 
-            className="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            onClick={handleZonaVip}
-          >
-            <div className="flex items-center">
-              <Star className="w-6 h-6 mr-3 text-purple-500" />
-              <span className="font-medium">Zona VIP</span>
+            {/* Descargar App */}
+            <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
+              <div className="flex items-center gap-3">
+                <Download className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+                <span className="font-semibold dark:text-white">Descargar App</span>
+              </div>
+              <a 
+                href="https://play.google.com" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition"
+              >
+                Google Play
+              </a>
+            </div>
+
+            {/* Info */}
+            <div className="mt-8 pt-8 border-t dark:border-slate-600 text-center text-slate-500 dark:text-slate-400">
+              <p className="mb-2">
+                Creado por <span className="font-bold text-slate-800 dark:text-white">Enrique Vargas</span>
+              </p>
+              <p className="text-sm">Versión 1.0.0</p>
             </div>
           </div>
         </div>
-
-        <div className="text-center mt-12 text-gray-500 dark:text-gray-400">
-          <p>Creado por Enrique Vargas</p>
-          <p>Versión 1.0.0</p>
-        </div>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
-};
-
-export default AjustesPage;
+}

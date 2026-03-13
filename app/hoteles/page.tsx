@@ -1,8 +1,17 @@
+import Header from "../../componentes/Header";
+import Footer from "../../componentes/Footer";
 
-import CategoriaGenerica from '../../src/paginas/CategoriaGenerica';
-
-const HotelesPage = () => {
-  return <CategoriaGenerica categoria="Hoteles" />;
-};
-
-export default HotelesPage;
+export default function HotelesPage() {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 flex items-center justify-center bg-slate-50">
+        <div className="text-center">
+          <h1 className="text-5xl font-black text-slate-800 mb-4">Hoteles</h1>
+          <p className="text-xl text-slate-600">Hola, soy la página de Hoteles</p>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+}
