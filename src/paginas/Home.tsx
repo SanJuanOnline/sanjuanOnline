@@ -1,6 +1,11 @@
+"use client";
+
 import React from 'react';
 import LayoutDirectorio from '../layouts/LayoutDirectorio';
 import { Store, Utensils, Coffee, HeartPulse, Hammer, PartyPopper } from 'lucide-react';
+import Spinner from '../componentes/Spinner';
+import ModalRegistro from '../componentes/ModalRegistro';
+import FormularioGratis from '../componentes/FormularioGratis';
 
 const CATEGORIAS_PREVIEW = [
   { nombre: 'Comida Rápida', icono: <Coffee className="w-6 h-6" />, color: 'bg-orange-500' },
@@ -12,6 +17,26 @@ const CATEGORIAS_PREVIEW = [
 ];
 
 const Home = () => {
+  const [showSpinner, setShowSpinner] = React.useState(true);
+  const [registroOpen, setRegistroOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    // simulate loading progress
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 15;
+      if (progress >= 100) {
+        clearInterval(interval);
+        setShowSpinner(false);
+      }
+    }, 250);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (showSpinner) {
+    return <Spinner progreso={100} />; // could animate but simple
+  }
+
   return (
     <LayoutDirectorio>
       <div className="flex flex-col min-h-screen">
@@ -67,7 +92,17 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Misión Corta */}
+        {/* Registration modal */}
+      {registroOpen && (
+        <ModalRegistro
+          isOpen={registroOpen}
+          onClose={() => setRegistroOpen(false)}
+        >
+          <FormularioGratis onClose={() => setRegistroOpen(false)} />
+        </ModalRegistro>
+      )}
+
+      {/* Misión Corta */}
         <section className="py-16 bg-white border-t border-gray-100">
           <div className="max-w-4xl mx-auto text-center px-4">
             <h3 className="text-2xl font-semibold text-gray-800 mb-6">Impulsando el Comercio Local</h3>

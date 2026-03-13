@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { ThemeProvider } from "@/src/componentes/ThemeProvider";
+import { NegociosProvider } from "@/src/context/NegociosContext";
 
 export const metadata: Metadata = {
   title: "San Juan Online",
@@ -31,7 +32,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <NegociosProvider>
+            {children}
+          </NegociosProvider>
         </ThemeProvider>
       </body>
     </html>

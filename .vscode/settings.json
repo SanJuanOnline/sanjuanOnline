@@ -1,0 +1,4 @@
+{
+  "npm.packageManager": "pnpm"
+}</content>
+<parameter name="filePath">/workspaces/sanjuanOnline/.vscode/settings.json

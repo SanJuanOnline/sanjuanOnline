@@ -1,5 +1,7 @@
-import { useParams } from "react-router-dom";
-import { NEGOCIOS } from "../data/negocios.db";
+"use client";
+
+import { useParams } from "next/navigation";
+import { useNegocios } from "../context/NegociosContext";
 
 import SeccionBanner from "./SeccionBanner";
 import SeccionInformacion from "./SeccionInformacion";
@@ -10,8 +12,9 @@ import SeccionContacto from "./SeccionContacto";
 
 export default function LandingClientes() {
   const { slug } = useParams();
+  const { negocios } = useNegocios();
 
-  const negocio = NEGOCIOS.find((n) => n.slug === slug);
+  const negocio = negocios.find((n) => n.slug === slug);
 
   if (!negocio || !negocio.landing) {
     return <div>Negocio no encontrado</div>;

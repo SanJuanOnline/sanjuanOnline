@@ -1,4 +1,4 @@
-import { Producto } from "../tipos/negocios.tipos";
+import { Producto } from "../data/tipos.db";
 
 interface Props {
   data?: Producto[];

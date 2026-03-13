@@ -1,24 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
-// Interfaz básica para evitar errores de importación si el archivo no existe
-export interface Negocio {
-  id: string;
-  nombre: string;
-  slug: string;
-  slogan: string;
-  logo: string;
-  tipoEnlace: "landing" | "externo";
-  urlExterna?: string;
-  destacado?: boolean;
-}
+import { Negocio } from "../data/tipos.db";
 
 interface Props {
   negocio: Negocio;
+  size?: 'small' | 'medium' | 'large';
 }
 
-export default function TarjetaNegocio({ negocio }: Props) {
+export default function TarjetaNegocio({ negocio, size = 'medium' }: Props) {
   const router = useRouter();
 
   const manejarClick = () => {
@@ -32,9 +22,21 @@ export default function TarjetaNegocio({ negocio }: Props) {
     }
   };
 
+  const sizeClasses = {
+    small: 'w-48',
+    medium: 'w-64',
+    large: 'w-80',
+  }[size];
+
+  const imgHeight = {
+    small: 'h-32',
+    medium: 'h-40',
+    large: 'h-48',
+  }[size];
+
   return (
     <div
-      className={`tarjeta-negocio p-4 border rounded-lg shadow-md cursor-pointer transition-transform hover:scale-105 ${
+      className={`${sizeClasses} tarjeta-negocio p-4 border rounded-lg shadow-md cursor-pointer transition-transform hover:scale-105 ${
         negocio.destacado ? "border-yellow-500 bg-yellow-50" : "border-gray-200"
       }`}
       onClick={manejarClick}
@@ -42,7 +44,7 @@ export default function TarjetaNegocio({ negocio }: Props) {
       <img 
         src={negocio.logo} 
         alt={negocio.nombre} 
-        className="w-full h-40 object-cover rounded-md mb-4"
+        className={`w-full ${imgHeight} object-cover rounded-md mb-4`}
       />
 
       <h3 className="text-xl font-bold mb-2">{negocio.nombre}</h3>

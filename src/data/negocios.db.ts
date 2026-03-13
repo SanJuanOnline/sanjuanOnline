@@ -1,4 +1,4 @@
-import {  Negocio } from "../tipos/negocios.tipos";
+import {  Negocio } from "./tipos.db";
 
 export const NEGOCIOS: Negocio[] = [
 

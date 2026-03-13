@@ -1,80 +1,138 @@
-# Protocolo de Desarrollo
+Aquí tienes tu documento **Protocolo de Desarrollo** totalmente reorganizado, limpio y estructurado por Módulos para facilitar el trabajo del agente de desarrollo.
 
-<!-- Documenta aquí el protocolo de desarrollo -->
-REGLAS DE ORO , NUNCA USAR ANY.  SIMPRE DATOS TIPADOS- crar todo por fases O MODULOS , anotar que fase esta termina y pasar a la siguinte. NUNCA CAMBIAR EL NOMBRE ALOS ARCHIVOS, NI CARPETAS.
-instalar,lucide,material ui,sweatalert2,react-form,zusdan,etc intalar react-pwa y configurar minifest.(San Juan Online y toda la metadata relacioanda con directorio digital , secciones de 1 a ña 7 y conilas alrederor. propiedad de Enrique Vargas. )
+Simplemente copia y pega este contenido en tu archivo:
 
-FASE 1
-crear el componente Spinner.tsx  con una barra de incrento  en la parte inferior de la pantalla, que cambie de color con forme avance de 0 a 100 en lo que carga la pagiana. 2.- agregar el logo sanjuan de la carpeta public. spinner solo renderiza a App.tsx y App.tsx solo renderiza Home.tsx unicamnte. el spinner solo aparece una vez a entrar ala pagiano o solo cuando se recargue la misma web. NO EN NUNGUNA OTRA PARTE. la imagen cubre todo la pantalla en moviles. y proporcional en pc. agregar o crear un slogan que tenga relacion la logotipo, analizalo, (directorio digitsal para negocion pequeños para entrar el mundo digital)
-correr buil, antes de pasara ala siguinte fase
+```markdown
+# Protocolo de Desarrollo - San Juan Online
 
-FASE 2
+## 1. Información General del Proyecto
+*   **Nombre del Proyecto:** San Juan Online.
+*   **Propietario:** Enrique Vargas.
+*   **Descripción:** Directorio digital para las secciones 1 a la 7 y sus alrededores (incluye Conilas). Plataforma para conectar negocios locales con usuarios.
+*   **Alcance:** App Web PWA.
 
-Crear estructura de carpetas en la carpeta app  con las siguintes paginas que con SLUG(comida-rapida,restaurantes,entretenimiento,servicios,mantenimiento,salud,hoteles). NOTA ES IMPORTANTE QUE ESSA PAGINAS TENGA SLUG POR QUE DENTRO DE ELLAS VIVIRAN LAS SUBCARPETAS DE CADA categoria que va a tener la base de datos que son las mismas paginas para que no axita discrepancia,, ademas ya esta el slug en el array. Ejemplo comida-Rapida/tortas juan. (esto es importado desde el array) y asi lo mimmo para cada categoria-
+## 2. Reglas de Oro (Desarrollo)
+1.  **Tipado Estricto:** NUNCA usar `any`. Siempre utilizar datos tipados (Interfaces/Types).
+2.  **Metodología:** Desarrollo por Fases o Módulos. No pasar a la siguiente fase hasta completar la actual.
+3.  **Estructura:** NUNCA cambiar nombres de archivos o carpetas una vez creados.
+4.  **Control de Calidad:** Correr `npm run build` al finalizar las fases críticas antes de avanzar.
 
-- Crear paginas que no llevan nombre en Header solo con iconos con lucide. que son las paginas  Cuenta.tsx y Ajaustes.tsx.
-Cuenta.tsx va a renderizar los datos del usuario. mas adenta cuando s implemente la opcion de registrar. (pendiente) 
-Ajustes.tsx crear componente  para modo oscuro. Layut global solo debe de contener los datos para modo oscuro unicamnete. boton para descargar app. desde la play Store. dejar por defaul solo la url de google paly por ahora cuando estala ruta correcta se deplazara, crera componte Zona Vip-( nuavo componete que van a tener una grid de targetas globales para poner url de cupeneras de descuent unicas por cliente proximante en construcccion. ) crear un boton para abrir esta seccion.... que se trabajara asata el final 
-Fase 3 
-Crear el Header ( de dos tipos atipo hambuerguesa para moviles y tio para pc verificar que parescan correctamente las rutas de la pagina con Slug y las paginas que solo rendizan los iconos,) y agrgar un buscador. y una campanita de notificaciones.
- 
+## 3. Tecnologías y Dependencias
+Instalar las siguientes librerías al iniciar el proyecto:
+*   **UI:** `lucide-react` (iconos), `@mui/material` (Material UI), `sweetalert2`.
+*   **Estado/Formularios:** `react-hook-form`, `zustand` (manejo de estado global).
+*   **PWA:** Configurar `react-pwa` y el archivo `manifest.json` con la metadata de San Juan Online.
 
- FASE 3.1  Crear la logica para poner dentro de ajstes compontete modo oscuro.(icono y nombre)
- poner creado por Enrique Vargas, justo al final de la seccion. agragrar la versdion de la aplicion.
-fase 4 
- Crear Foter 
- NOTA "dejar los datos que tiene" :  Solo agregar  los iconos de la siguintes redes sociales. X,youtube,istagram,Facebook,Threads,tiktok, dejar los url por defecto luego remplazo por los reales.
- y ponerlos en el LayoutDirectorio.tex de la carpeta layouts. 
- correr buil, antes de pasara ala siguiente fase-
-  Header y Fooeter viven dentro del layoutDirectorio.tsx en la carpeta layuot dentro de src. ese layou es unico para Home y las  9 paginas de la carpeta app.
+---
 
-Fase 5 
-crear un modal Registro Grastis, los primero 100 negocios, PSTERIORMENTE. 100 NEGOCIOS %50 DE DECUETO. 100 25%  DE DECEUNTO.
-caracatesiticas, un contador de o a 100  con di, que luego craamos la funcions. conetaralo en codigo para que n o se olvide. 
-formulario bonito. que reciba ., nombre del negocio ,  giro. (para saber que categoria es)
-y un seccion para subir logo. ( otro input que diga no tengo logo-)
-dos botones, registro gratis, o registro premium. 
+## 🧱 MÓDULO 1: INFRAESTRUCTURA Y HOME (El Contenedor)
+*Objetivo: Tener la base funcional, el layout global y la página principal.*
 
-FASE 6
-Crear componte, formularioGratis. NOTA LEER CUIDADOSAMNETE EL ARRAY. NEGOCIOS.TS PARA SABER ESCACATMENTE QUE DATOS SOLICITAR. 
-CRAR POR AHOR AN NUEVO ARCHIVO LOCAL. PARA GAURAR AHI TODOS LOS DATOS, DEL FORMUALRIO LA LOGIACA ES QUE CUANDO SE RELLENE,, SE AUTOMATICE EN AUTOAMTICO EN ELAAARY POR AHORA LUEGO ALA  BASE DATOS,. PARA SU RENDERIZADO EN AUTOMATICO.. 
-CREAR COMPONETE FORMULARIO , PARA LANDIG, PERSONALIZADO. (NUEVA lANDINGPAGE,PARA PRECIOS-) 
+### FASE 1: Spinner de Carga y Root
+1.  **Componente `Spinner.tsx`:**
+    *   Crear una barra de incremento en la parte inferior que cambie de color de 0% a 100%.
+    *   Agregar logo de San Juan (desde `/public`).
+    *   Agregar slogan: "Directorio digital para negocios pequeños listos para entrar al mundo digital".
+    *   **Comportamiento:** Renderiza `App.tsx`. `App.tsx` renderiza `Home.tsx`.
+    *   **Lógica:** Solo aparece una vez al entrar o recargar la página. No en navegación interna.
+    *   **Estilo:** Imagen a pantalla completa en móviles y proporcional en PC.
+2.  **Verificación:** Correr `build`.
 
-FASE 7 . 
-DEJAR TODO COEMENTADO LISTO  PARA MIGRACION A BASE DE DATOS. 
+### FASE 2: Layout Global, Header y Footer
+1.  **Layout Global (`LayoutDirectorio.tsx`):**
+    *   Ubicado en `src/layouts`.
+    *   Debe contener la lógica para el **Modo Oscuro**.
+    *   Es único para `Home` y las páginas de categorías.
+2.  **Header (`Header.tsx`):**
+    *   **Versión Móvil:** Menú tipo hamburguesa.
+    *   **Versión PC:** Barra estándar.
+    *   Funcionalidades: Buscador, Campanita de notificaciones, Rutas correctas.
+    *   Páginas con iconos (Lucide) sin texto: `Cuenta.tsx` y `Ajustes.tsx`.
+        *   `Cuenta.tsx`: Renderizará datos del usuario (pendiente lógica registro).
+        *   `Ajustes.tsx`: Modo oscuro (icono y nombre), botón descarga App (URL Google Play por defecto), "Creado por Enrique Vargas", versión de la app.
+3.  **Footer (`Footer.tsx`):**
+    *   Mantener datos existentes.
+    *   Agregar iconos de redes sociales: X, YouTube, Instagram, Facebook, Threads, TikTok (URLs por defecto).
+4.  **Componente Zona VIP:**
+    *   Crear componente dentro de `Ajustes.tsx` (Grid de tarjetas globales para cupones). Dejar en construcción.
+5.  **Verificación:** Correr `build`.
 
+### FASE 3: Página Principal (Home.tsx)
+1.  **Campaña Publicitaria:**
+    *   Banner principal con overlay usando `sanjuan.jpg`.
+    *   Título y slogan delante de la imagen.
+    *   Crear secciones de presentación (Carta de presentación).
+    *   Enfoque: "Ayudar a comercios a tener un lugar en internet, no importa el tamaño".
+2.  **Navegación Categorías:**
+    *   Grid o botones para navegar a las categorías.
 
-Crear archivo listo para recir la  base de datos negocios.db que va hacer la misma que el array. solo cuando todo el fluj este terminado, por que hay que intrgrar todos lo negocios por cada una de las categorias. Por ahora solo trabajar con la  base local para maquetacion. 
+---
 
+## 🧱 MÓDULO 2: LANDINGS DE NEGOCIO (El Producto)
+*Objetivo: Crear las páginas individuales de cada negocio aisladas del resto.*
 
+### FASE 4: Estructura de Rutas Dinámicas (SLUGs)
+1.  **Creación de Carpetas:**
+    *   Crear estructura en `app/` para las categorías principales con slugs dinámicos: `comida-rapida`, `restaurantes`, `entretenimiento`, `servicios`, `mantenimiento`, `salud`, `hoteles`.
+    *   **Importante:** Dentro de cada categoría, crear la subcarpeta `[slug]` para las páginas de negocio (Ej: `comida-rapida/[slug]/page.tsx`).
+    *   Esto permite URLs como: `comida-rapida/tortas-juan`.
 
-FASE 8
-Crera las secciones para Home.tsx  
-pirmero crear la campaña publictaria para San Juen Online(directorio digital , para las secciones 1,2,,3,4,5,,6,7, y sus alrededores. )
-1.- baneer con over lay- 
-poner titulo y eslogan delante del la imagen
-imagen para banner, sannjunn.jpg en la carpeta public.
-ayudarme a crear las demas secciones , para una buena carta de prrsentaion o tqarjeta de presentacion.
-(descripcion del poryecto bevepar ala craion de la cmapaña o la pagia Home.tsx. AYUDAR A TODSO LOS COMEENRTCIOS  ATENEU UN LUGAR EN INTERNET NO IMPORTA EL TAMAÑO DEL GIRO. EXITSN ESTABLECIEMEOTOS QUE YATIENE UN POCO DE MAS POSISN EN EL MENRCADO.. A ELLOS. OFRESCERLS UNALANDIG PROFESIONA APRTE, PERO POR AHOR ASELA VA A ADAR UNA PEQUEÑÑA LANDIG DENTRO DEL DIRECTORIO GLOBAL, SOLO  PRA QUE LOS USUSRIOS LOS CONTACTEN MAS RAPIDO, Y SUN SOLO PAGO, ) ACALRACION SOLO ESTA SECCION ES UNICA HE INDEPENDIENTE A TODO ELE PROYECTO, ES LA LANDIG DEL DUEÑO, POR FAVOR ANALISA EL COSNCEPTO PARA HOME.TSX
+### FASE 5: Componente LandingNegocio (`LandingClientes.tsx`)
+1.  **Arquitectura del Componente:**
+    *   Debe recibir los datos del negocio (según estructura del array `negocios.db`).
+    *   Estilos dinámicos: Configurar archivo para modificar colores (`HeaderLanding`, `FooterLanding`), tipografías, etc. Dejar comentado para principiantes.
+2.  **Sub-componentes:**
+    *   **HeaderLanding.tsx:** Navegación interna, responsivo (hamburguesa móvil), campana notificaciones propia.
+    *   **FooterLanding.tsx:** Recibe valores del array.
+    *   **BotonesContacto.tsx:** Integrar en el layout.
+3.  **Contenido:**
+    *   Renderizar secciones (Banner, Info, Productos, Galería, etc.) basándose en el JSON del negocio.
 
-FASE 9
-Verificar el rendirado correcto de el componete TarjetaNegocios.tsx que renderice correctamente los datos del array.
-fase 9.1  Crar 3 targetas diferentes. una que Vpi muy grademas llamtiva. otra a la mitad de su taamño que la primera. y la ultma mas chica solo para relleno.
- Fase 9.2 conectar perfectamnet cada Targeta a cada categiria. [Slug] 
-correr buil, antes de pasara ala siguinte fase
-correr buil, antes de pasara ala siguinte fase
- Fase 10
- 
- NOTA CADA LandigClientes.tsx tiene su propio arcivo para poder modificar , colores de HaderLandig y footerLandig que titulos, estilos de letras. etc. separados y comentados pefectaenet  pra principiantes. y tambien agragr BotonesContacto.tsx. al mismo layout.
+---
 
-Fase 11 HeaderLandig.tsx. tiene las rutos internas para la nevagacion dentro de la LandigClientes.tsx NOTA VERIDICAR SU RESPSONSIVODAD, TIPO HAMBURGUESA PARA MOVILES. Y ELPROPIO PARA PC. ademas agragr su pripia camapana de notificaciones. 
+## 🧱 MÓDULO 3: CONEXIÓN Y TARJETAS (El Enlace)
+*Objetivo: Conectar Home con las Landings a través de las tarjetas.*
 
-Fasee 11.1 
-FoterLandig. recibe los valores del array del data/negicios.db.ts
+### FASE 6: TarjetaNegocios.tsx y Categorías
+1.  **Componente `TarjetaNegocios.tsx`:**
+    *   Renderiza datos del array correctamente.
+    *   Crear 3 variantes:
+        *   **VIP:** Grande y muy llamativa.
+        *   **Estándar:** Mitad de tamaño.
+        *   **Básica:** Pequeña (relleno).
+2.  **Conexión:**
+    *   Conectar cada tarjeta a su categoría y slug correspondiente (`/${categoria}/${slug}`).
+    *   Verificar navegación correcta según `FLUJO.md`.
+3.  **Verificación:** Correr `build`.
 
+---
 
-CON ESTA ESTRUCTURA SE PODRA NAVEGAR CORRECTAMENET EPOR CATEGORIAS  DESDE LA PAGINA HOME. COMO LO INDCA EL ARCHIVO FLUJO.md de la misma carpeta.   SI ENCUETRAS UN ERROR EN EL FLUJO, PARA LA PERFECTA NEGEACION ME O INDICAS. POR FAVOR
-  QUEDAN PENDIETES, LAS LOGIACAS PARA BUSQEDA. 
-  LOGICA PARA LLENADO DE LAS PAGINAS AUTOMATICAMENTE AL REGISTAR. 
-  QUEDA PENDIENTE LA LOGICA PARA FORMULARIOGRATIS. PARA AUTO LLENADO 
+## 🧱 MÓDULO 4: LÓGICA DE DATOS Y USUARIO
+*Objetivo: Funcionalidades de registro y administración de datos.*
 
+### FASE 7: Modal de Registro y Formularios
+1.  **Modal Registro:**
+    *   Lógica de precios: Primeros 100 gratis, siguientes 50% descuento, siguientes 25% descuento.
+    *   Contador visual 0-100.
+    *   Inputs: Nombre negocio, Giro, Logo (con opción "No tengo logo").
+    *   Botones: "Registro Gratis" y "Registro Premium".
+2.  **Formularios:**
+    *   `FormularioGratis.tsx`: Leer cuidadosamente `negocios.ts` para solicitar datos exactos.
+    *   **Lógica:** Crear archivo local para guardar datos. Al rellenar, debe automatizarse en el array local para renderizado inmediato (simulación de BD).
+    *   `FormularioLanding.tsx`: Para landing de precios personalizada.
+
+### FASE 8: Preparación Base de Datos
+1.  **Migración:**
+    *   Crear archivo listo para recibir `negocios.db`.
+    *   Dejar todo comentado y listo para migrar de array local a Base de Datos real.
+    *   Integrar todos los negocios por categoría.
+
+---
+
+## 📋 Notas Finales y Pendientes
+*   Verificar errores en el flujo de navegación (Home -> Categoría -> Negocio).
+*   **Pendientes:**
+    *   Lógica de búsqueda (Search Bar).
+    *   Lógica de autollenado de páginas al registrar.
+    *   Lógica de llenado automático del formulario.
+```
