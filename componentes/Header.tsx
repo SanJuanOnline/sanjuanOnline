@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, Search, Bell, User, Settings, X } from "lucide-react";
+import { Menu, Search, Bell, User, Settings, X, Shield } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -51,6 +51,11 @@ export default function Header() {
             <Link href="/ajustes" className="p-2 hover:bg-slate-800 rounded-lg transition">
               <Settings className="w-5 h-5 text-slate-300" />
             </Link>
+            {process.env.NEXT_PUBLIC_ADMIN_ENABLED === 'true' && (
+              <Link href="/admin" className="p-2 hover:bg-slate-800 rounded-lg transition" title="Admin">
+                <Shield className="w-5 h-5 text-amber-400" />
+              </Link>
+            )}
           </div>
 
           {/* Mobile - Hamburguesa */}
@@ -111,6 +116,12 @@ export default function Header() {
                 <Settings className="w-5 h-5" />
                 <span>Ajustes</span>
               </Link>
+              {process.env.NEXT_PUBLIC_ADMIN_ENABLED === 'true' && (
+                <Link href="/admin" className="flex items-center gap-3 p-3 hover:bg-slate-800 rounded-lg text-amber-400 border-t border-slate-800 mt-2 pt-4">
+                  <Shield className="w-5 h-5" />
+                  <span className="font-bold">Admin</span>
+                </Link>
+              )}
             </nav>
           </div>
         )}

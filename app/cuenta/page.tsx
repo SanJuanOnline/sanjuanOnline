@@ -1,13 +1,11 @@
 "use client";
 
 import { User } from "lucide-react";
-import Header from "../../componentes/Header";
-import Footer from "../../componentes/Footer";
+import LayoutDirectorio from "../../layouts/LayoutDirectorio";
 
 export default function CuentaPage() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+    <LayoutDirectorio>
       <main className="flex-1 bg-slate-50 dark:bg-slate-900 p-8">
         <div className="max-w-2xl mx-auto bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8">
           <div className="flex items-center gap-4 mb-6">
@@ -22,7 +20,6 @@ export default function CuentaPage() {
           <p className="text-slate-500 dark:text-slate-400">Funcionalidad en construcción...</p>
         </div>
       </main>
-      <Footer />
-    </div>
+    </LayoutDirectorio>
   );
 }

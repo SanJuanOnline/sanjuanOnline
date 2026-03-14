@@ -204,3 +204,173 @@
 ---
 
 **Última actualización:** 13 Marzo 2026, 18:32
+
+---
+
+## 📅 Sesión: 14 Marzo 2026
+
+---
+
+## ✅ COMPLETADO HOY
+
+### MÓDULO 4 — FASE 7: Formulario de Registro Inteligente ✅
+
+#### Nuevos archivos creados:
+
+**`database/tiposRegistro.ts`**
+- Interface `NegocioRegistrado` (estructura completa para Firebase-ready)
+- Interface `DatosFormulario` (lo que captura el formulario)
+- Tipos: `PlanRegistro`, `EstadoRegistro`
+
+**`database/negociosRegistrados.ts`**
+- `generarSlug(nombre)` — limpia texto para URL (sin acentos, sin especiales)
+- `generarUUID()` — ID único simple
+- `formatearTelefono(valor)` — formato (444) 123-4567
+- `obtenerIniciales(nombre)` — primeras 2 letras para placeholder de logo
+- `detectarCategoria(giro)` — detección por palabras clave (8 categorías)
+- `agregarNegocio(datos)` — guarda en localStorage (reemplazar por `addDoc` de Firebase en Fase 2)
+- `obtenerNegociosRegistrados()` — lee desde localStorage
+- `slugUnico(base)` — verifica duplicados y agrega número si es necesario
+
+**`componentes/FormularioRegistro.tsx`** (reemplazado completamente)
+- Paso 1: Nombre → genera slug en tiempo real con preview de URL
+- Paso 2: Giro → detecta categoría automáticamente con confirmación visual
+- Paso 3: Color de marca → paleta de 8 colores + preview de placeholder con iniciales
+- Paso 4: Teléfonos → hasta 3 teléfonos + WhatsApp (mismo número o diferente) + Messenger
+- Paso 5: Dirección → textarea con helper text
+- Paso 6: Descripción → 150 caracteres con contador
+- Pantalla de éxito con slug generado
+
+**`app/registro/page.tsx`** (actualizado)
+- Pasa `contadorLugares` al formulario
+- `onExito` redirige al slug del negocio registrado
+
+#### Panel Admin actualizado (`app/admin/page.tsx`):
+- Módulo Negocios ahora tiene 2 tabs:
+  - **Directorio** — negocios del array estático (`dbNegocios.ts`)
+  - **Nuevos Registros** — negocios del formulario (localStorage)
+- Tab "Nuevos Registros" muestra: nombre, slug, giro, teléfono, estado (pendiente/activo/pausado)
+- Botones de acción: Aprobar ✓, Pausar ✗, Eliminar 🗑
+
+---
+
+## 🔄 MIGRACIÓN A FIREBASE (Cuando estés listo)
+
+Solo cambiar **una función** en `database/negociosRegistrados.ts`:
+
+```typescript
+// ANTES (localStorage):
+export function agregarNegocio(datos: DatosFormulario): NegocioRegistrado {
+  // ... guarda en localStorage
+}
+
+// DESPUÉS (Firebase):
+import { collection, addDoc } from 'firebase/firestore';
+export async function agregarNegocio(datos: DatosFormulario): Promise<NegocioRegistrado> {
+  const docRef = await addDoc(collection(db, 'negocios'), { ...nuevo });
+  return { ...nuevo, id: docRef.id };
+}
+```
+
+El componente `FormularioRegistro.tsx` NO cambia. Solo la función utilitaria.
+
+---
+
+## 📂 Archivos Modificados Hoy
+
+```
+database/
+  tiposRegistro.ts          ← NUEVO
+  negociosRegistrados.ts    ← NUEVO
+componentes/
+  FormularioRegistro.tsx    ← REEMPLAZADO (formulario inteligente completo)
+app/
+  registro/page.tsx         ← ACTUALIZADO
+  admin/page.tsx            ← ACTUALIZADO (tabs Directorio / Nuevos Registros)
+```
+
+---
+
+## 🚧 PENDIENTE (PRÓXIMA SESIÓN)
+
+- [ ] Conectar Firebase (Firestore) — reemplazar `agregarNegocio` en `negociosRegistrados.ts`
+- [ ] Agregar 5 negocios por categoría al array `dbNegocios.ts` para análisis real
+- [ ] Subir a Vercel para pruebas de comportamiento real
+- [ ] Módulo Admin: implementar "Aprobar" y "Pausar" con cambio real de estado
+- [ ] Módulo Admin: Usuarios, Estadísticas, Notificaciones, Planes (requieren Firebase)
+
+---
+
+**Última actualización:** 14 Marzo 2026, 00:42
+
+---
+
+## 📅 Sesión: 14 Marzo 2026 (continuación)
+
+---
+
+## ✅ COMPLETADO — MIGRACIÓN A FIREBASE COMPLETA
+
+### Firebase configurado
+- Proyecto: `sanjuanonline-3e042`
+- Firestore habilitado en modo producción, región `us-central1`
+- Reglas temporales en `allow read, write: if true` (cambiar antes de producción real)
+- Credenciales en `.env.local` (nunca subir a GitHub)
+
+### Archivos nuevos
+```
+lib/
+  firebase.ts                  ← Inicialización de Firebase (lee de .env.local)
+database/
+  serviciosFirestore.ts        ← Funciones de lectura/escritura en Firestore
+  tiposRegistro.ts             ← Interfaces NegocioRegistrado y DatosFormulario
+  negociosRegistrados.ts       ← agregarNegocio() → guarda en Firestore
+scripts/
+  migrarNegocios.ts            ← Script one-time: subió los 12 negocios a Firestore
+componentes/
+  PaginaCategoria.tsx          ← Componente genérico para páginas de categoría
+  LandingNegocio.tsx           ← Componente genérico para landings (lee de Firestore)
+  AjustesContenido.tsx         ← Contenido de ajustes (separado para evitar SSR)
+  FormularioRegistro.tsx       ← Formulario inteligente completo
+```
+
+### Migración completada
+- Los 12 negocios del array local fueron subidos a Firestore con `scripts/migrarNegocios.ts`
+- Cada negocio usa su `slug` como ID del documento en Firestore
+
+### App 100% conectada a Firestore
+- Páginas de categoría → `obtenerNegociosPorCategoria(categoria)`
+- Landings `[slug]` → `obtenerNegocioPorSlug(slug)`
+- Panel admin → `obtenerTodosLosNegocios()`
+- Formulario de registro → `agregarNegocio(datos)` → `addDoc` a Firestore
+
+### Páginas de categoría simplificadas (1 línea cada una)
+Todas usan `<PaginaCategoria />` con sus props:
+- `/comida-rapida`, `/restaurantes`, `/entretenimiento`, `/mantenimiento`
+- `/salud`, `/mascotas`, `/hoteles`
+
+### Landings `[slug]` simplificadas
+Todas usan `<LandingNegocio />` que lee de Firestore dinámicamente.
+
+### Build ✅
+- `npm run build` exitoso sin errores
+- `/ajustes` corregido con `dynamic({ ssr: false })` para evitar error de localStorage en build
+
+---
+
+## 🔜 PENDIENTE PRÓXIMA SESIÓN
+
+- [ ] Verificar en navegador que categorías y landings cargan desde Firestore
+- [ ] Borrar `database/dbNegocios.ts` (array local ya no se usa)
+- [ ] Subir a Vercel para pruebas en producción real
+- [ ] Agregar 5 negocios por categoría directamente en Firestore
+- [ ] Firebase Storage para imágenes reales
+- [ ] Cambiar reglas de Firestore antes de producción:
+  ```
+  allow read: if true;
+  allow write: if false; // solo desde admin autenticado
+  ```
+
+---
+
+**Última actualización:** 14 Marzo 2026, 01:55

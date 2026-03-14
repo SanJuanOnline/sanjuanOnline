@@ -1,37 +1,52 @@
-
 {
-  "theme_color": "#09090b",
-  "background_color": "#09090b",
+  "theme_color": "#1e40af",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "San Juan Online",
-  "short_name": "SJO",
-  "description": "Tu guía de confianza para explorar y disfrutar de la Ciudad de San Juan.",
+  "name": "San Juan Online - Directorio Digital",
+  "short_name": "San Juan Online",
+  "description": "El primer directorio digital exclusivo para las secciones 1-7 y Conilas. Encuentra negocios locales.",
+  "orientation": "portrait-primary",
+  "categories": ["business", "lifestyle", "shopping"],
+  "lang": "es-MX",
+  "dir": "ltr",
   "icons": [
     {
       "src": "/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/icon-256x256.png",
-      "sizes": "256x256",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
       "src": "/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/sanjuan.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Comida Rápida",
+      "short_name": "Comida",
+      "description": "Ver negocios de comida rápida",
+      "url": "/comida-rapida",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Restaurantes",
+      "short_name": "Restaurantes",
+      "description": "Ver restaurantes",
+      "url": "/restaurantes",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
     }
   ]
 }

@@ -42,7 +42,7 @@ Instalar las siguientes librerías al iniciar el proyecto:
 1.  **Layout Global (`LayoutDirectorio.tsx`):**
     *   Ubicado en `src/layouts`.
     *   Debe contener la lógica para el **Modo Oscuro**.
-    *   Es único para `Home` y las páginas de categorías.
+    
 2.  **Header (`Header.tsx`):**
     *   **Versión Móvil:** Menú tipo hamburguesa.
     *   **Versión PC:** Barra estándar.
@@ -69,28 +69,55 @@ Instalar las siguientes librerías al iniciar el proyecto:
 ---
 
 ## 🧱 MÓDULO 2: LANDINGS DE NEGOCIO (El Producto)
-*Objetivo: Crear las páginas individuales de cada negocio aisladas del resto.*
+*Objetivo: Crear las páginas individuales de cada negocio aisladas del resto con estilos personalizados.*
 
 ### FASE 4: Estructura de Rutas Dinámicas (SLUGs)
 1.  **Creación de Carpetas de Categorías:**
-    *   Crear estructura en `app/` para las categorías principales: `comida-rapida`, `restaurantes`, `entretenimiento`, `servicios`, `mantenimiento`, `salud`, `hoteles`.
-    *   Cada carpeta contiene `page.tsx` que renderiza `<CategoriaGenerica categoria="nombre" />`.
-2.  **Ruta Unificada para Landings:**
-    *   Crear carpeta `app/negocio/[slug]/page.tsx` para TODAS las landings de negocios.
-    *   Esta ruta unificada recibe el slug y renderiza `<LandingClientes />`.
-    *   URLs resultantes: `/negocio/tortas-juan`, `/negocio/hotel-paraiso`, etc.
-    *   **Importante:** NO crear `[slug]` dentro de cada categoría. Usar ruta centralizada.
+    *   Crear estructura en `app/` para las categorías principales: `comida-rapida`, `restaurantes`, `entretenimiento`, `servicios`, `mantenimiento`, `salud`, `hoteles`, `mascotas`.
+    *   Cada carpeta contiene:
+        *   `page.tsx` - Lista de negocios de la categoría
+        *   `[slug]/layout.tsx` - Layout específico para landings (sin Header/Footer global)
+        *   `[slug]/page.tsx` - Renderiza la landing del negocio
+2.  **Ruta Dinámica para Landings:**
+    *   Estructura: `app/[categoria]/[slug]/page.tsx`
+    *   URLs resultantes: `/comida-rapida/hamburguesas-el-lenador`, `/hoteles/hotel-paraiso`, etc.
+    *   **Importante:** Cada landing tiene su propio layout aislado del global.
 
-### FASE 5: Componente LandingNegocio (`LandingClientes.tsx`)
-1.  **Arquitectura del Componente:**
-    *   Debe recibir los datos del negocio (según estructura del array `negocios.db`).
-    *   Estilos dinámicos: Configurar archivo para modificar colores (`HeaderLanding`, `FooterLanding`), tipografías, etc. Dejar comentado para principiantes.
-2.  **Sub-componentes:**
-    *   **HeaderLanding.tsx:** Navegación interna, responsivo (hamburguesa móvil), campana notificaciones propia.
-    *   **FooterLanding.tsx:** Recibe valores del array.
-    *   **BotonesContacto.tsx:** Integrar en el layout.
-3.  **Contenido:**
-    *   Renderizar secciones (Banner, Info, Productos, Galería, etc.) basándose en el JSON del negocio.
+### FASE 5: Sistema de Landings Personalizadas
+1.  **Arquitectura del Sistema:**
+    *   Cada negocio define sus colores en `landing.colores` (primario, secundario).
+    *   Los componentes de landing reciben y aplican estos colores dinámicamente.
+    *   Tipografías y estilos personalizables por negocio.
+    
+2.  **Componentes Base (`componentes/uilanding/`):**
+    *   **LandingHeader.tsx:** 
+        *   Navegación interna con colores del negocio
+        *   Responsivo (hamburguesa en móvil)
+        *   Recibe `colores` como prop
+    *   **LandingFooter.tsx:** 
+        *   Footer con colores personalizados
+        *   Recibe datos del negocio
+    *   **BotonContacto.tsx:** 
+        *   Botón flotante de acción
+        *   Usa color primario del negocio
+        
+3.  **Componentes de Secciones (`componentes/uilanding/secciones/`):**
+    *   **SeccionBanner.tsx:** Hero con imagen, título y subtítulo
+    *   **SeccionInformacion.tsx:** Bloques de texto e información
+    *   **SeccionProductos.tsx:** Grid de productos/servicios con precios
+    *   **SeccionGaleria.tsx:** Galería de imágenes responsive
+    *   **SeccionTestimonios.tsx:** Testimonios de clientes
+    *   **SeccionContacto.tsx:** Información de contacto (teléfono, email, ubicación)
+    
+4.  **Renderizado Dinámico:**
+    *   La página lee `landing.secciones[]` del negocio
+    *   Mapea cada sección y renderiza el componente correspondiente según `tipo`
+    *   Pasa los colores personalizados a cada componente
+    
+5.  **Layout Aislado (`app/[categoria]/[slug]/layout.tsx`):**
+    *   NO incluye Header/Footer global
+    *   Incluye LandingHeader y LandingFooter con colores del negocio
+    *   Incluye BotonContacto flotante
 
 ---
 
@@ -205,3 +232,56 @@ Instalar las siguientes librerías al iniciar el proyecto:
 - SeccionBanner.tsx
 
 **Última actualización:** 13 Marzo 2026, 05:46 AM
+
+
+---
+
+# 🔴 LÍNEA DE CORTE - SESIÓN 14 MARZO 2026 (madrugada) 🔴
+
+## ✅ COMPLETADO HOY
+
+### Firebase + Firestore
+- ✅ Firebase instalado (`npm install firebase`)
+- ✅ `lib/firebase.ts` configurado con variables de entorno
+- ✅ Firestore habilitado, 12 negocios migrados desde array local
+- ✅ Script de migración: `scripts/migrarNegocios.ts`
+
+### App conectada a Firestore
+- ✅ `database/serviciosFirestore.ts` con funciones de lectura
+- ✅ Todas las páginas de categoría leen de Firestore
+- ✅ Todas las landings `[slug]` leen de Firestore
+- ✅ Panel admin lee de Firestore
+- ✅ Formulario de registro guarda en Firestore
+
+### Formulario de Registro Inteligente
+- ✅ Slug generado en tiempo real
+- ✅ Detección automática de categoría por palabras clave
+- ✅ Selector de color de marca con preview
+- ✅ Hasta 3 teléfonos + WhatsApp + Messenger
+- ✅ Guarda directo en Firestore al enviar
+
+### Panel Admin
+- ✅ Módulos separados: Negocios, Usuarios, Estadísticas, Notificaciones, Planes
+- ✅ Tab "Directorio" (Firestore) + Tab "Nuevos Registros"
+
+### Build
+- ✅ `npm run build` exitoso
+
+## 🚧 CONTINUAR MAÑANA DESDE AQUÍ
+
+- [ ] Verificar en navegador que todo carga desde Firestore
+- [ ] Borrar `database/dbNegocios.ts`
+- [ ] Subir a Vercel
+- [ ] Agregar más negocios por categoría en Firestore
+- [ ] Firebase Storage para imágenes
+
+**Archivos clave de esta sesión:**
+- `lib/firebase.ts`
+- `database/serviciosFirestore.ts`
+- `database/negociosRegistrados.ts`
+- `componentes/FormularioRegistro.tsx`
+- `componentes/PaginaCategoria.tsx`
+- `componentes/LandingNegocio.tsx`
+- `scripts/migrarNegocios.ts`
+
+**Última actualización:** 14 Marzo 2026, 01:55
