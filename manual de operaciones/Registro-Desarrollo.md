@@ -488,30 +488,38 @@ componentes/
 > Ver detalle completo en `Protocolo-de-Desarrollo.md` → Módulo 5
 
 ### FASE 9 — Firebase Auth
-- [ ] Activar Email/Contraseña en Firebase Console (manual)
-- [ ] Crear `context/AuthContext.tsx`
-- [ ] Modificar `app/layout.tsx` con AuthProvider
-- [ ] Modificar `componentes/Header.tsx` — botones "Registrarse" / "Iniciar Sesión" condicionales
-- [ ] Crear `componentes/ModalLogin.tsx`
-- [ ] Modificar `app/registro/page.tsx` — agregar Paso 0 (crear cuenta)
+- [x] Activar Email/Contraseña en Firebase Console
+- [x] Activar Google Sign-In en Firebase Console
+- [x] Crear `context/AuthContext.tsx`
+- [x] Modificar `app/layout.tsx` con AuthProvider
+- [x] Modificar `componentes/Header.tsx` — botones "Registrarse" / "Iniciar Sesión" condicionales
+- [x] Crear `componentes/ModalAuth.tsx` (email/contraseña + Google)
+- [x] Modificar `app/registro/page.tsx` — protegido, pide auth antes del formulario
 
 ### FASE 10 — Dashboard `/cuenta`
-- [ ] Agregar `obtenerNegocioPorUID()` en `database/serviciosFirestore.ts`
-- [ ] Modificar `app/cuenta/page.tsx` — dashboard real del dueño
+- [x] Agregar `obtenerNegocioPorUID()` en `database/serviciosFirestore.ts`
+- [x] Modificar `app/cuenta/page.tsx` — dashboard real (datos usuario, negocio, cerrar sesión, eliminar cuenta)
 
 ### FASE 11 — Overlay plan Básico
 - [ ] Modificar `componentes/LandingNegocio.tsx` — overlay oscuro en secciones premium
 
 ---
 
-### Después del Módulo 5 (Módulo 6 — Producción)
-- [ ] Verificar en navegador que categorías y landings cargan desde Firestore
-- [ ] Borrar `database/dbNegocios.ts` (array local ya no se usa)
-- [ ] Subir a Vercel
-- [ ] Agregar 5+ negocios por categoría en Firestore
-- [ ] Firebase Storage para imágenes reales
-- [ ] Cambiar reglas de Firestore a `allow write: if request.auth != null`
+## 🌐 PRODUCCIÓN
+
+- **URL:** https://sanjuan-online.vercel.app
+- **Deploy:** Vercel (conectado a GitHub, auto-deploy en push a main)
+- **Dominio autorizado en Firebase:** `sanjuan-online.vercel.app`
 
 ---
 
-**Última actualización:** 14 Marzo 2026, 20:57
+### Próxima sesión (Módulo 6)
+- [ ] Overlay plan Básico en `LandingNegocio.tsx`
+- [ ] Verificar flujo completo: registro → negocio en directorio → landing
+- [ ] Agregar más negocios por categoría en Firestore
+- [ ] Facebook Sign-In (requiere app en Meta for Developers)
+- [ ] Firebase Storage para imágenes reales
+
+---
+
+**Última actualización:** 14 Marzo 2026, 22:20
