@@ -374,3 +374,144 @@ Todas usan `<LandingNegocio />` que lee de Firestore dinámicamente.
 ---
 
 **Última actualización:** 14 Marzo 2026, 01:55
+
+---
+
+## 📅 Sesión: 14 Marzo 2026 (tarde)
+
+---
+
+## 🎯 ESTRATEGIA — MÓDULO 5: AUTENTICACIÓN Y CUENTA DE USUARIO
+
+### Objetivo
+Implementar Firebase Auth para que los usuarios puedan registrarse, iniciar sesión, y gestionar su negocio desde `/cuenta`. El negocio registrado queda vinculado al usuario y aparece automáticamente en su categoría con plan Básico (free).
+
+---
+
+### Flujo completo definido
+
+```
+[Header] → Botón "Registrarse" → /registro (Firebase Auth + Formulario negocio)
+[Header] → Botón "Iniciar Sesión" → ModalLogin (Firebase Auth)
+         → Si autenticado → icono User lleva a /cuenta
+[/cuenta] → Dashboard del dueño: ver su negocio, editar datos, escalar plan
+```
+
+---
+
+### FASE 9: Firebase Auth — Registro e Inicio de Sesión
+
+#### 9.1 — Activar Firebase Auth en consola
+- Habilitar proveedor: Email/Contraseña en Firebase Console
+
+#### 9.2 — Contexto de Autenticación (`context/AuthContext.tsx`)
+- Provee `usuario` (FirebaseUser | null) a toda la app
+- Funciones: `registrarse(email, password)`, `iniciarSesion(email, password)`, `cerrarSesion()`
+- Envuelve la app en `app/layout.tsx`
+
+#### 9.3 — Botones en Header
+- Si `usuario === null`:
+  - Botón **"Registrarse"** → navega a `/registro`
+  - Botón **"Iniciar Sesión"** → abre `ModalLogin`
+- Si `usuario !== null`:
+  - Icono User → navega a `/cuenta`
+  - Tooltip o badge con nombre/email del usuario
+
+#### 9.4 — Modal de Login (`componentes/ModalLogin.tsx`)
+- Email + Contraseña
+- Botón "Iniciar Sesión" → `iniciarSesion()`
+- Link "¿No tienes cuenta? Regístrate" → cierra modal y navega a `/registro`
+- Manejo de errores (credenciales incorrectas, etc.)
+
+#### 9.5 — Flujo de Registro en `/registro`
+- Paso 0 (nuevo): Crear cuenta → email + contraseña → `registrarse()`
+- Una vez autenticado → continúa con el formulario del negocio (pasos 1-6 ya existentes)
+- Al guardar negocio en Firestore: incluir `uid` del usuario y `planSuscripcion: "basico"`
+
+---
+
+### FASE 10: Página `/cuenta` — Dashboard del Dueño
+
+#### Lo que muestra `/cuenta`
+- Si NO autenticado → redirige a `/registro`
+- Si autenticado:
+  - Datos del usuario (email, fecha registro)
+  - Tarjeta con datos de su negocio (nombre, slug, categoría, plan actual)
+  - Botón "Editar mi negocio" → formulario de edición (datos básicos)
+  - Botón "Escalar mi plan" → muestra opciones Estándar / VIP con precios
+  - Botón "Cerrar sesión"
+
+#### Consulta Firestore
+- `obtenerNegocioPorUID(uid)` → busca en Firestore donde `uid == usuario.uid`
+
+---
+
+### FASE 11: Plan Básico — Qué ofrece y cómo se ve
+
+#### TarjetaNegocio (variante Básica)
+- Ya existe, solo confirmar que `planSuscripcion: "basico"` activa la variante pequeña
+
+#### LandingNegocio (plan Básico = free)
+- Renderiza con **overlay oscuro semitransparente** sobre secciones premium
+- Secciones visibles: Banner, Información, Contacto
+- Secciones bloqueadas con overlay: Galería, Productos, Testimonios
+- Mensaje en overlay: "Actualiza tu plan para mostrar esta sección"
+
+---
+
+### Archivos a crear/modificar
+
+```
+context/
+  AuthContext.tsx              ← NUEVO — proveedor de autenticación global
+
+componentes/
+  ModalLogin.tsx               ← NUEVO — modal de inicio de sesión
+  Header.tsx                   ← MODIFICAR — botones Login/Registro condicionales
+
+app/
+  registro/page.tsx            ← MODIFICAR — agregar Paso 0 (crear cuenta)
+  cuenta/page.tsx              ← MODIFICAR — dashboard real del dueño
+  layout.tsx                   ← MODIFICAR — envolver con AuthProvider
+
+database/
+  serviciosFirestore.ts        ← MODIFICAR — agregar obtenerNegocioPorUID()
+
+componentes/
+  LandingNegocio.tsx           ← MODIFICAR — overlay oscuro para plan básico
+```
+
+---
+
+## 🚧 PENDIENTE — INICIAR AQUÍ (MÓDULO 5)
+
+> Ver detalle completo en `Protocolo-de-Desarrollo.md` → Módulo 5
+
+### FASE 9 — Firebase Auth
+- [ ] Activar Email/Contraseña en Firebase Console (manual)
+- [ ] Crear `context/AuthContext.tsx`
+- [ ] Modificar `app/layout.tsx` con AuthProvider
+- [ ] Modificar `componentes/Header.tsx` — botones "Registrarse" / "Iniciar Sesión" condicionales
+- [ ] Crear `componentes/ModalLogin.tsx`
+- [ ] Modificar `app/registro/page.tsx` — agregar Paso 0 (crear cuenta)
+
+### FASE 10 — Dashboard `/cuenta`
+- [ ] Agregar `obtenerNegocioPorUID()` en `database/serviciosFirestore.ts`
+- [ ] Modificar `app/cuenta/page.tsx` — dashboard real del dueño
+
+### FASE 11 — Overlay plan Básico
+- [ ] Modificar `componentes/LandingNegocio.tsx` — overlay oscuro en secciones premium
+
+---
+
+### Después del Módulo 5 (Módulo 6 — Producción)
+- [ ] Verificar en navegador que categorías y landings cargan desde Firestore
+- [ ] Borrar `database/dbNegocios.ts` (array local ya no se usa)
+- [ ] Subir a Vercel
+- [ ] Agregar 5+ negocios por categoría en Firestore
+- [ ] Firebase Storage para imágenes reales
+- [ ] Cambiar reglas de Firestore a `allow write: if request.auth != null`
+
+---
+
+**Última actualización:** 14 Marzo 2026, 20:57

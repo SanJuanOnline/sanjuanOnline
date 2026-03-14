@@ -19,3 +19,10 @@ export async function obtenerTodosLosNegocios(): Promise<Negocio[]> {
   const snap = await getDocs(collection(db, COL));
   return snap.docs.map((d) => d.data() as Negocio);
 }
+
+export async function obtenerNegocioPorUID(uid: string): Promise<Negocio | null> {
+  const q = query(collection(db, COL), where("uid", "==", uid));
+  const snap = await getDocs(q);
+  if (snap.empty) return null;
+  return snap.docs[0].data() as Negocio;
+}

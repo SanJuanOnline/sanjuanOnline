@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { TemaProvider } from "../context/TemaContext";
+import { AuthProvider } from "../context/AuthContext";
 import InstalarPWA from "../componentes/InstalarPWA";
 
 export const metadata: Metadata = {
@@ -51,8 +52,10 @@ export default function RootLayout({
       </head>
       <body className="bg-white dark:bg-slate-900 transition-colors">
         <TemaProvider>
-          {children}
-          <InstalarPWA />
+          <AuthProvider>
+            {children}
+            <InstalarPWA />
+          </AuthProvider>
         </TemaProvider>
         <script
           dangerouslySetInnerHTML={{

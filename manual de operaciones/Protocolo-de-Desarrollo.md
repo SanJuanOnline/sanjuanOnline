@@ -1,287 +1,263 @@
-Aquí tienes tu documento **Protocolo de Desarrollo** totalmente reorganizado, limpio y estructurado por Módulos para facilitar el trabajo del agente de desarrollo.
+# Protocolo de Desarrollo — San Juan Online
 
-Simplemente copia y pega este contenido en tu archivo:
-
-```markdown
-# Protocolo de Desarrollo - San Juan Online
+---
 
 ## 1. Información General del Proyecto
-*   **Nombre del Proyecto:** San Juan Online.
-*   **Propietario:** Enrique Vargas.
-*   **Descripción:** Directorio digital para las secciones 1 a la 7 y sus alrededores (incluye Conilas). Plataforma para conectar negocios locales con usuarios.
-*   **Alcance:** App Web PWA.
 
-## 2. Reglas de Oro (Desarrollo)
-1.  **Tipado Estricto:** NUNCA usar `any`. Siempre utilizar datos tipados (Interfaces/Types).
-2.  **Metodología:** Desarrollo por Fases o Módulos. No pasar a la siguiente fase hasta completar la actual.
-3.  **Estructura:** NUNCA cambiar nombres de archivos o carpetas una vez creados.
-4.  **Control de Calidad:** Correr `npm run build` al finalizar las fases críticas antes de avanzar.
-
-## 3. Tecnologías y Dependencias
-Instalar las siguientes librerías al iniciar el proyecto:
-*   **UI:** `lucide-react` (iconos), `@mui/material` (Material UI), `sweetalert2`.
-*   **Estado/Formularios:** `react-hook-form`, `zustand` (manejo de estado global).
-*   **PWA:** Configurar `react-pwa` y el archivo `manifest.json` con la metadata de San Juan Online.
+- **Nombre:** San Juan Online
+- **Propietario:** Enrique Vargas
+- **Descripción:** Directorio digital freemium para negocios locales de las secciones 1-7 y alrededores (incluye Conilas)
+- **Modelo de negocio:** Registro gratuito (plan Básico) → upsell a planes Estándar y VIP
+- **Alcance:** App Web PWA
+- **Repositorio:** https://github.com/SanJuanOnline/sanjuanOnline
+- **Firebase:** Proyecto `sanjuanonline-3e042`, Firestore región `us-central1`
 
 ---
 
-## 🧱 MÓDULO 1: INFRAESTRUCTURA Y HOME (El Contenedor)
-*Objetivo: Tener la base funcional, el layout global y la página principal.*
+## 2. Reglas de Oro
 
-### FASE 1: Spinner de Carga y Root
-1.  **Componente `Spinner.tsx`:**
-    *   Crear una barra de incremento en la parte inferior que cambie de color de 0% a 100%.
-    *   Agregar logo de San Juan (desde `/public`).
-    *   Agregar slogan: "Directorio digital para negocios pequeños listos para entrar al mundo digital".
-    *   **Comportamiento:** Renderiza `App.tsx`. `App.tsx` renderiza `Home.tsx`.
-    *   **Lógica:** Solo aparece una vez al entrar o recargar la página. No en navegación interna.
-    *   **Estilo:** Imagen a pantalla completa en móviles y proporcional en PC.
-2.  **Verificación:** Correr `build`.
-
-### FASE 2: Layout Global, Header y Footer
-1.  **Layout Global (`LayoutDirectorio.tsx`):**
-    *   Ubicado en `src/layouts`.
-    *   Debe contener la lógica para el **Modo Oscuro**.
-    
-2.  **Header (`Header.tsx`):**
-    *   **Versión Móvil:** Menú tipo hamburguesa.
-    *   **Versión PC:** Barra estándar.
-    *   Funcionalidades: Buscador, Campanita de notificaciones, Rutas correctas.
-    *   Páginas con iconos (Lucide) sin texto: `Cuenta.tsx` y `Ajustes.tsx`.
-        *   `Cuenta.tsx`: Renderizará datos del usuario (pendiente lógica registro).
-        *   `Ajustes.tsx`: Modo oscuro (icono y nombre), botón descarga App (URL Google Play por defecto), "Creado por Enrique Vargas", versión de la app.
-3.  **Footer (`Footer.tsx`):**
-    *   Mantener datos existentes.
-    *   Agregar iconos de redes sociales: X, YouTube, Instagram, Facebook, Threads, TikTok (URLs por defecto).
-4.  **Componente Zona VIP:**
-    *   Crear componente dentro de `Ajustes.tsx` (Grid de tarjetas globales para cupones). Dejar en construcción.
-5.  **Verificación:** Correr `build`.
-
-### FASE 3: Página Principal (Home.tsx)
-1.  **Campaña Publicitaria:**
-    *   Banner principal con overlay usando `sanjuan.jpg`.
-    *   Título y slogan delante de la imagen.
-    *   Crear secciones de presentación (Carta de presentación).
-    *   Enfoque: "Ayudar a comercios a tener un lugar en internet, no importa el tamaño".
-2.  **Navegación Categorías:**
-    *   Grid o botones para navegar a las categorías.
+1. **Tipado estricto:** NUNCA usar `any`. Siempre interfaces/types.
+2. **Metodología:** Desarrollo por Fases. No avanzar hasta completar la actual.
+3. **Estructura:** NUNCA renombrar archivos o carpetas una vez creados.
+4. **Control de calidad:** `npm run build` al finalizar cada fase crítica.
+5. **Seguridad:** Nunca subir `.env.local` a GitHub. Nunca exponer credenciales.
 
 ---
 
-## 🧱 MÓDULO 2: LANDINGS DE NEGOCIO (El Producto)
-*Objetivo: Crear las páginas individuales de cada negocio aisladas del resto con estilos personalizados.*
+## 3. Stack Tecnológico
 
-### FASE 4: Estructura de Rutas Dinámicas (SLUGs)
-1.  **Creación de Carpetas de Categorías:**
-    *   Crear estructura en `app/` para las categorías principales: `comida-rapida`, `restaurantes`, `entretenimiento`, `servicios`, `mantenimiento`, `salud`, `hoteles`, `mascotas`.
-    *   Cada carpeta contiene:
-        *   `page.tsx` - Lista de negocios de la categoría
-        *   `[slug]/layout.tsx` - Layout específico para landings (sin Header/Footer global)
-        *   `[slug]/page.tsx` - Renderiza la landing del negocio
-2.  **Ruta Dinámica para Landings:**
-    *   Estructura: `app/[categoria]/[slug]/page.tsx`
-    *   URLs resultantes: `/comida-rapida/hamburguesas-el-lenador`, `/hoteles/hotel-paraiso`, etc.
-    *   **Importante:** Cada landing tiene su propio layout aislado del global.
-
-### FASE 5: Sistema de Landings Personalizadas
-1.  **Arquitectura del Sistema:**
-    *   Cada negocio define sus colores en `landing.colores` (primario, secundario).
-    *   Los componentes de landing reciben y aplican estos colores dinámicamente.
-    *   Tipografías y estilos personalizables por negocio.
-    
-2.  **Componentes Base (`componentes/uilanding/`):**
-    *   **LandingHeader.tsx:** 
-        *   Navegación interna con colores del negocio
-        *   Responsivo (hamburguesa en móvil)
-        *   Recibe `colores` como prop
-    *   **LandingFooter.tsx:** 
-        *   Footer con colores personalizados
-        *   Recibe datos del negocio
-    *   **BotonContacto.tsx:** 
-        *   Botón flotante de acción
-        *   Usa color primario del negocio
-        
-3.  **Componentes de Secciones (`componentes/uilanding/secciones/`):**
-    *   **SeccionBanner.tsx:** Hero con imagen, título y subtítulo
-    *   **SeccionInformacion.tsx:** Bloques de texto e información
-    *   **SeccionProductos.tsx:** Grid de productos/servicios con precios
-    *   **SeccionGaleria.tsx:** Galería de imágenes responsive
-    *   **SeccionTestimonios.tsx:** Testimonios de clientes
-    *   **SeccionContacto.tsx:** Información de contacto (teléfono, email, ubicación)
-    
-4.  **Renderizado Dinámico:**
-    *   La página lee `landing.secciones[]` del negocio
-    *   Mapea cada sección y renderiza el componente correspondiente según `tipo`
-    *   Pasa los colores personalizados a cada componente
-    
-5.  **Layout Aislado (`app/[categoria]/[slug]/layout.tsx`):**
-    *   NO incluye Header/Footer global
-    *   Incluye LandingHeader y LandingFooter con colores del negocio
-    *   Incluye BotonContacto flotante
+- **Framework:** Next.js 14 (App Router)
+- **Estilos:** Tailwind CSS (darkMode: 'class')
+- **Base de datos:** Firebase Firestore
+- **Autenticación:** Firebase Auth (Email/Contraseña)
+- **Iconos:** lucide-react
+- **Estado global:** React Context (Tema + Auth)
+- **Deploy:** Vercel
 
 ---
 
-## 🧱 MÓDULO 3: CONEXIÓN Y TARJETAS (El Enlace)
-*Objetivo: Conectar Home con las Landings a través de las tarjetas.*
+## 4. Variables de Entorno (`.env.local`)
 
-### FASE 6: TarjetaNegocios.tsx y Categorías
-1.  **Componente `TarjetaNegocio.tsx`:**
-    *   Renderiza datos del array `negocios.db.ts` correctamente.
-    *   Crear 3 variantes según `planSuscripcion`:
-        *   **VIP:** Ocupa 4 cols (md) / 6 cols (lg). Grande, gradientes accent, badge destacado.
-        *   **Estándar:** Ocupa 2 cols (md) / 3 cols (lg). Tamaño medio, colores primary.
-        *   **Básica:** Ocupa 2 cols (md) / 2 cols (lg). Pequeña, colores neutros.
-    *   Lógica de navegación:
-        *   Si `tipoEnlace === "externo"` → `window.open(urlExterna, "_blank")`
-        *   Si `tipoEnlace === "landing"` → `router.push(/negocio/${slug})`
-2.  **Componente `CategoriaGenerica.tsx`:**
-    *   Recibe prop `categoria` (string).
-    *   Filtra negocios: `negocios.filter(n => n.categoria === categoria)`.
-    *   Ordena por prioridad: VIP → Estándar → Básico.
-    *   Grid responsivo: `grid-cols-1 md:grid-cols-4 lg:grid-cols-6` para que respete los `col-span` dinámicos.
-    *   Renderiza header con icono, nombre de categoría y contador.
-3.  **Páginas de Categorías:**
-    *   Cada categoría (comida-rapida, restaurantes, etc.) tiene su `page.tsx` que renderiza `<CategoriaGenerica categoria="nombre-categoria" />`.
-4.  **Verificación:** Correr `build`.
-
----
-
-## 🧱 MÓDULO 4: LÓGICA DE DATOS Y USUARIO
-*Objetivo: Funcionalidades de registro y administración de datos.*
-
-### FASE 7: Modal de Registro y Formularios
-1.  **Modal Registro:**
-    *   Lógica de precios: Primeros 100 gratis, siguientes 50% descuento, siguientes 25% descuento.
-    *   Contador visual 0-100.
-    *   Inputs: Nombre negocio, Giro, Logo (con opción "No tengo logo").
-    *   Botones: "Registro Gratis" y "Registro Premium".
-2.  **Formularios:**
-    *   `FormularioGratis.tsx`: Leer cuidadosamente `negocios.ts` para solicitar datos exactos.
-    *   **Lógica:** Crear archivo local para guardar datos. Al rellenar, debe automatizarse en el array local para renderizado inmediato (simulación de BD).
-    *   `FormularioLanding.tsx`: Para landing de precios personalizada.
-
-### FASE 8: Preparación Base de Datos
-1.  **Migración:**
-    *   Crear archivo listo para recibir `negocios.db`.
-    *   Dejar todo comentado y listo para migrar de array local a Base de Datos real.
-    *   Integrar todos los negocios por categoría.
-
----
-
-## 📋 Notas Finales y Pendientes
-*   Verificar errores en el flujo de navegación (Home -> Categoría -> Negocio).
-*   **Pendientes:**
-    *   Lógica de búsqueda (Search Bar).
-    *   Lógica de autollenado de páginas al registrar.
-    *   Lógica de llenado automático del formulario.
+```
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+NEXT_PUBLIC_FIREBASE_APP_ID=
+NEXT_PUBLIC_ADMIN_ENABLED=true
 ```
 
+---
+
+## 5. Planes de Suscripción
+
+| Plan | Precio | Tarjeta | Landing |
+|------|--------|---------|---------|
+| **Básico** | Gratis | Variante pequeña (gris) | Banner + Info + Contacto. Resto con overlay oscuro bloqueado |
+| **Estándar** | Por definir | Variante media (azul) | + Productos + Galería |
+| **VIP** | Por definir | Variante grande (dorado) | Todas las secciones + posición destacada en directorio |
 
 ---
 
-# 🔴 LÍNEA DE CORTE - SESIÓN 13 MARZO 2026 🔴
-
-## ✅ COMPLETADO HOY
-
-### Sistema de Diseño
-- ✅ Paleta de colores profesional (Primary azul, Accent dorado, Success verde)
-- ✅ Spinner mejorado con gradientes y animaciones
-- ✅ Home rediseñado completamente (Hero, Categorías, Misión, Stats)
-- ✅ Header y Footer actualizados con nueva paleta
-- ✅ TarjetaNegocio con 3 variantes (VIP, Estándar, Básica)
-
-### Estructura de Rutas
-- ✅ Carpetas [slug] creadas para todas las categorías
-- ✅ CategoriaGenerica.tsx (componente reutilizable)
-- ✅ Páginas de categorías funcionando
-
-### Landing (Parcial)
-- ✅ LandingClientes.tsx mejorado
-- ✅ SeccionBanner.tsx con diseño profesional
-
-## 🚧 CONTINUAR MAÑANA DESDE AQUÍ
-
-### Prioridad 1: Completar Secciones de Landing
-- [ ] SeccionInformacion.tsx
-- [ ] SeccionProductos.tsx
-- [ ] SeccionGaleria.tsx
-- [ ] SeccionTestimonios.tsx
-- [ ] SeccionContacto.tsx
-- [ ] HeaderLanding.tsx
-- [ ] FooterLanding.tsx
-- [ ] BotonesContacto.tsx (flotantes)
-
-### Prioridad 2: Modal de Registro (FASE 7)
-- [ ] ModalRegistro.tsx mejorado
-- [ ] FormularioGratis.tsx con contador 0-100
-
-### Prioridad 3: Ajustes y Cuenta (FASE 8)
-- [ ] Ajustes.tsx (modo oscuro, descarga app)
-- [ ] Cuenta.tsx (perfil usuario)
-
-**Archivos principales modificados hoy:**
-- tailwind.config.js
-- globals.css
-- Spinner.tsx
-- Home.tsx
-- Header.tsx
-- Footer.tsx
-- TarjetaNegocio.tsx
-- CategoriaGenerica.tsx (nuevo)
-- LandingClientes.tsx
-- SeccionBanner.tsx
-
-**Última actualización:** 13 Marzo 2026, 05:46 AM
-
+## 6. Módulos de Desarrollo
 
 ---
 
-# 🔴 LÍNEA DE CORTE - SESIÓN 14 MARZO 2026 (madrugada) 🔴
+### ✅ MÓDULO 1 — INFRAESTRUCTURA Y HOME
+*Estado: COMPLETO*
 
-## ✅ COMPLETADO HOY
+| Fase | Descripción | Estado |
+|------|-------------|--------|
+| FASE 1 | Spinner de carga con barra de progreso, logo, slogan | ✅ |
+| FASE 2 | Header, Footer, LayoutDirectorio, modo oscuro | ✅ |
+| FASE 3 | Home: Hero banner, grid categorías, misión, estadísticas | ✅ |
 
-### Firebase + Firestore
-- ✅ Firebase instalado (`npm install firebase`)
-- ✅ `lib/firebase.ts` configurado con variables de entorno
-- ✅ Firestore habilitado, 12 negocios migrados desde array local
-- ✅ Script de migración: `scripts/migrarNegocios.ts`
+**Archivos clave:**
+- `componentes/Spinner.tsx`
+- `componentes/Header.tsx`
+- `componentes/Footer.tsx`
+- `layouts/LayoutDirectorio.tsx`
+- `paginas/Home.tsx`
+- `context/TemaContext.tsx`
 
-### App conectada a Firestore
-- ✅ `database/serviciosFirestore.ts` con funciones de lectura
-- ✅ Todas las páginas de categoría leen de Firestore
-- ✅ Todas las landings `[slug]` leen de Firestore
-- ✅ Panel admin lee de Firestore
-- ✅ Formulario de registro guarda en Firestore
+---
 
-### Formulario de Registro Inteligente
-- ✅ Slug generado en tiempo real
-- ✅ Detección automática de categoría por palabras clave
-- ✅ Selector de color de marca con preview
-- ✅ Hasta 3 teléfonos + WhatsApp + Messenger
-- ✅ Guarda directo en Firestore al enviar
+### ✅ MÓDULO 2 — LANDINGS DE NEGOCIO
+*Estado: COMPLETO*
 
-### Panel Admin
-- ✅ Módulos separados: Negocios, Usuarios, Estadísticas, Notificaciones, Planes
-- ✅ Tab "Directorio" (Firestore) + Tab "Nuevos Registros"
+| Fase | Descripción | Estado |
+|------|-------------|--------|
+| FASE 4 | Rutas dinámicas `[categoria]/[slug]` para todas las categorías | ✅ |
+| FASE 5 | `LandingNegocio.tsx` genérico que lee de Firestore | ✅ |
 
-### Build
-- ✅ `npm run build` exitoso
+**Archivos clave:**
+- `componentes/LandingNegocio.tsx`
+- `app/[categoria]/[slug]/page.tsx` (todas las categorías)
 
-## 🚧 CONTINUAR MAÑANA DESDE AQUÍ
+**Secciones disponibles en landing:**
+- `SeccionBanner.tsx`
+- `SeccionInformacion.tsx`
+- `SeccionProductos.tsx`
+- `SeccionGaleria.tsx`
+- `SeccionTestimonios.tsx`
+- `SeccionContacto.tsx`
 
-- [ ] Verificar en navegador que todo carga desde Firestore
-- [ ] Borrar `database/dbNegocios.ts`
-- [ ] Subir a Vercel
-- [ ] Agregar más negocios por categoría en Firestore
-- [ ] Firebase Storage para imágenes
+---
 
-**Archivos clave de esta sesión:**
+### ✅ MÓDULO 3 — DIRECTORIO Y TARJETAS
+*Estado: COMPLETO*
+
+| Fase | Descripción | Estado |
+|------|-------------|--------|
+| FASE 6 | `TarjetaNegocio.tsx` con 3 variantes (VIP, Estándar, Básico) | ✅ |
+| FASE 6 | `PaginaCategoria.tsx` genérico para todas las categorías | ✅ |
+| FASE 6 | Páginas de categoría conectadas a Firestore | ✅ |
+
+**Archivos clave:**
+- `componentes/TarjetaNegocio.tsx`
+- `componentes/PaginaCategoria.tsx`
+- `app/[categoria]/page.tsx` (todas las categorías)
+
+---
+
+### ✅ MÓDULO 4 — DATOS Y FIREBASE
+*Estado: COMPLETO*
+
+| Fase | Descripción | Estado |
+|------|-------------|--------|
+| FASE 7 | Formulario de registro inteligente (6 pasos) | ✅ |
+| FASE 7 | Panel Admin con tabs (Directorio / Nuevos Registros) | ✅ |
+| FASE 8 | Firebase/Firestore configurado y conectado | ✅ |
+| FASE 8 | 12 negocios migrados al Firestore | ✅ |
+| FASE 8 | Todas las páginas leen de Firestore | ✅ |
+
+**Archivos clave:**
 - `lib/firebase.ts`
 - `database/serviciosFirestore.ts`
 - `database/negociosRegistrados.ts`
+- `database/tiposRegistro.ts`
 - `componentes/FormularioRegistro.tsx`
-- `componentes/PaginaCategoria.tsx`
-- `componentes/LandingNegocio.tsx`
-- `scripts/migrarNegocios.ts`
+- `app/admin/page.tsx`
 
-**Última actualización:** 14 Marzo 2026, 01:55
+---
+
+### 🔄 MÓDULO 5 — AUTENTICACIÓN Y CUENTA DE USUARIO
+*Estado: EN DESARROLLO*
+
+**Objetivo:** Implementar Firebase Auth para que los dueños puedan registrarse, iniciar sesión y gestionar su negocio desde `/cuenta`.
+
+| Fase | Descripción | Estado |
+|------|-------------|--------|
+| FASE 9 | Firebase Auth — Registro e inicio de sesión | 🔄 |
+| FASE 10 | `/cuenta` — Dashboard del dueño | 🔄 |
+| FASE 11 | Overlay oscuro en landing para plan Básico | 🔄 |
+
+#### FASE 9 — Firebase Auth
+
+**9.1 — Activar en Firebase Console (manual)**
+- Authentication → Sign-in method → Email/Contraseña → Habilitar
+
+**9.2 — `context/AuthContext.tsx` (NUEVO)**
+- Provee `usuario` (FirebaseUser | null) a toda la app
+- Funciones: `registrarse()`, `iniciarSesion()`, `cerrarSesion()`
+- Se envuelve en `app/layout.tsx`
+
+**9.3 — `componentes/Header.tsx` (MODIFICAR)**
+- Sin sesión: botón **"Registrarse"** → `/registro` | botón **"Iniciar Sesión"** → abre `ModalLogin`
+- Con sesión: icono User → `/cuenta`
+
+**9.4 — `componentes/ModalLogin.tsx` (NUEVO)**
+- Email + Contraseña → `iniciarSesion()`
+- Link "¿No tienes cuenta?" → cierra modal y navega a `/registro`
+- Manejo de errores
+
+**9.5 — `app/registro/page.tsx` (MODIFICAR)**
+- Agregar Paso 0: crear cuenta (email + contraseña) antes del formulario
+- Al guardar negocio en Firestore: incluir `uid` del usuario y `planSuscripcion: "basico"`
+
+#### FASE 10 — Dashboard `/cuenta`
+
+**`app/cuenta/page.tsx` (MODIFICAR)**
+- Sin sesión → redirige a `/registro`
+- Con sesión muestra:
+  - Email y fecha de registro
+  - Tarjeta con datos del negocio (nombre, slug, categoría, plan)
+  - Botón "Editar mi negocio"
+  - Botón "Escalar mi plan" (opciones Estándar / VIP)
+  - Botón "Cerrar sesión"
+
+**`database/serviciosFirestore.ts` (MODIFICAR)**
+- Agregar `obtenerNegocioPorUID(uid)` → busca negocio donde `uid == usuario.uid`
+
+#### FASE 11 — Overlay plan Básico
+
+**`componentes/LandingNegocio.tsx` (MODIFICAR)**
+- Si `planSuscripcion === "basico"`:
+  - Secciones visibles: Banner, Información, Contacto
+  - Secciones bloqueadas con overlay oscuro semitransparente: Galería, Productos, Testimonios
+  - Mensaje en overlay: "Actualiza tu plan para mostrar esta sección"
+
+**Checklist MÓDULO 5:**
+- [ ] Activar Email/Contraseña en Firebase Console
+- [ ] Crear `context/AuthContext.tsx`
+- [ ] Modificar `app/layout.tsx` con AuthProvider
+- [ ] Modificar `componentes/Header.tsx`
+- [ ] Crear `componentes/ModalLogin.tsx`
+- [ ] Modificar `app/registro/page.tsx` (Paso 0)
+- [ ] Agregar `obtenerNegocioPorUID()` en `database/serviciosFirestore.ts`
+- [ ] Modificar `app/cuenta/page.tsx`
+- [ ] Modificar `componentes/LandingNegocio.tsx` (overlay)
+
+---
+
+### 📋 MÓDULO 6 — PRODUCCIÓN Y CALIDAD
+*Estado: PENDIENTE*
+
+| Tarea | Descripción | Estado |
+|-------|-------------|--------|
+| Deploy | Subir a Vercel y verificar en producción | ⬜ |
+| Firestore rules | Cambiar a `allow write: if false` antes de producción real | ⬜ |
+| Contenido | Agregar 5+ negocios por categoría en Firestore | ⬜ |
+| Imágenes | Firebase Storage para imágenes reales de negocios | ⬜ |
+| Limpieza | Borrar `database/dbNegocios.ts` (array local ya no se usa) | ⬜ |
+| Verificación | Confirmar en navegador que categorías y landings cargan de Firestore | ⬜ |
+
+---
+
+### 📋 MÓDULO 7 — HERRAMIENTAS PREMIUM PARA LANDINGS
+*Estado: DISEÑO PENDIENTE*
+
+**Objetivo:** Definir y construir herramientas adicionales que los negocios pueden activar según su plan para enriquecer su landing.
+
+> ⚠️ Este módulo requiere definición de producto antes de desarrollar. Pendiente de claridad sobre qué herramientas ofrecer y a qué precio.
+
+---
+
+## 7. Reglas de Firestore
+
+**Desarrollo (actual):**
+```
+allow read, write: if true;
+```
+
+**Producción (cambiar antes de lanzar):**
+```
+allow read: if true;
+allow write: if request.auth != null;
+```
+
+---
+
+## 8. Notas Técnicas Importantes
+
+- **Spinner:** Solo aparece en Home, controlado con `sessionStorage`
+- **Modo oscuro:** Funcional, guarda en `localStorage`, aplica clase `dark` al `<html>`
+- **`/ajustes`:** Usa `dynamic({ ssr: false })` para evitar error de localStorage en build
+- **Slugs:** Generados automáticamente desde el nombre del negocio (sin acentos, sin especiales)
+- **Slugs en Firestore:** El `slug` es el ID del documento en la colección `negocios`
+- **Build:** Siempre correr `npm run build` antes de hacer deploy
+
+---
+
+*Última actualización: 14 Marzo 2026*

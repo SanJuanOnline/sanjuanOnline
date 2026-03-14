@@ -1,20 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import LayoutDirectorio from "../../layouts/LayoutDirectorio";
 import FormularioRegistro from "../../componentes/FormularioRegistro";
+import ModalAuth from "../../componentes/ModalAuth";
+import { useAuth } from "../../context/AuthContext";
 
 export default function RegistroPage() {
   const router = useRouter();
-  const [contadorLugares, setContadorLugares] = useState(87);
+  const { usuario, cargando } = useAuth();
+  const [contadorLugares] = useState(87);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setContadorLugares((prev) => (prev > 50 ? prev - 1 : 50));
-    }, 30000);
-    return () => clearInterval(interval);
-  }, []);
+  if (cargando) return null;
 
   return (
     <LayoutDirectorio>
@@ -37,6 +35,14 @@ export default function RegistroPage() {
           </div>
         </div>
       </main>
+
+      {/* Si no hay sesión, bloquea con modal de auth */}
+      {!usuario && (
+        <ModalAuth
+          modoInicial="registro"
+          onCerrar={() => router.push("/")}
+        />
+      )}
     </LayoutDirectorio>
   );
 }
