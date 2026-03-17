@@ -3,6 +3,7 @@ import "./globals.css";
 import { TemaProvider } from "../context/TemaContext";
 import { AuthProvider } from "../context/AuthContext";
 import InstalarPWA from "../componentes/InstalarPWA";
+import ActualizacionPWA from "../componentes/ActualizacionPWA";
 
 export const metadata: Metadata = {
   title: "San Juan Online - Directorio Digital Local",
@@ -55,6 +56,7 @@ export default function RootLayout({
           <AuthProvider>
             {children}
             <InstalarPWA />
+            <ActualizacionPWA />
           </AuthProvider>
         </TemaProvider>
         <script
