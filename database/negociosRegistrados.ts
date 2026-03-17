@@ -122,7 +122,7 @@ export async function agregarNegocio(datos: DatosFormulario): Promise<NegocioReg
     clicksWhatsApp: 0,
     // NUEVOS CAMPOS
     tieneSitioWeb: datos.tieneSitioWeb,
-    urlExterna: datos.tieneSitioWeb ? datos.urlExterna : null,
+    urlExterna: datos.tieneSitioWeb ? (datos.urlExterna ?? null) : null,
     tipoLanding: datos.tieneSitioWeb ? "externa" : "interna",
   };
 
