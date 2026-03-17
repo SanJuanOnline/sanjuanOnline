@@ -17,10 +17,12 @@ export default function Header() {
     { nombre: "Comida Rápida", slug: "comida-rapida" },
     { nombre: "Restaurantes", slug: "restaurantes" },
     { nombre: "Entretenimiento", slug: "entretenimiento" },
+    { nombre: "Servicios", slug: "servicios" },
     { nombre: "Mantenimiento", slug: "mantenimiento" },
     { nombre: "Salud", slug: "salud" },
     { nombre: "Mascotas", slug: "mascotas" },
     { nombre: "Hoteles", slug: "hoteles" },
+    { nombre: "Autos", slug: "autos" },
   ];
 
   return (

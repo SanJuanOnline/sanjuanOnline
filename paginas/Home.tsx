@@ -43,10 +43,12 @@ export default function Home() {
     { nombre: "Comida Rápida", slug: "comida-rapida", icon: "🍔", desc: "Antojos que satisfacen", count: 8 },
     { nombre: "Restaurantes", slug: "restaurantes", icon: "🍽️", desc: "Experiencias gastronómicas", count: 0 },
     { nombre: "Entretenimiento", slug: "entretenimiento", icon: "🎭", desc: "Diversión local", count: 0 },
+    { nombre: "Servicios", slug: "servicios", icon: "🛠️", desc: "Profesionales a tu servicio", count: 0 },
     { nombre: "Mantenimiento", slug: "mantenimiento", icon: "🔧", desc: "Soluciones a tu alcance", count: 0 },
     { nombre: "Salud", slug: "salud", icon: "❤️", desc: "Bienestar cercano", count: 0 },
     { nombre: "Mascotas", slug: "mascotas", icon: "🐾", desc: "Para los peludos de la familia", count: 0 },
     { nombre: "Hoteles", slug: "hoteles", icon: "🏨", desc: "Descanso con sabor local", count: 0 },
+    { nombre: "Autos", slug: "autos", icon: "🚗", desc: "Todo para tu vehículo", count: 0 },
   ];
 
   return (

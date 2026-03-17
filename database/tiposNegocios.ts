@@ -8,7 +8,8 @@ export type TipoCategoria =
   | "mantenimiento"
   | "salud"
   | "hoteles"
-  | "mascotas";
+  | "mascotas"
+  | "autos";
 
 // Tipos de Plan de Suscripción
 export type TipoPlanSuscripcion = "vip" | "estandar" | "basico";

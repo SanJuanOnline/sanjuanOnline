@@ -13,11 +13,12 @@ const CATEGORIAS: { slug: TipoCategoria; nombre: string; icono: string }[] = [
   { slug: "comida-rapida",   nombre: "Comida Rápida",    icono: "🍔" },
   { slug: "restaurantes",    nombre: "Restaurantes",      icono: "🍽️" },
   { slug: "entretenimiento", nombre: "Entretenimiento",   icono: "🎭" },
+  { slug: "servicios",       nombre: "Servicios",         icono: "🛠️" },
   { slug: "mantenimiento",   nombre: "Mantenimiento",     icono: "🔧" },
   { slug: "salud",           nombre: "Salud",             icono: "❤️" },
   { slug: "mascotas",        nombre: "Mascotas",          icono: "🐾" },
   { slug: "hoteles",         nombre: "Hoteles",           icono: "🏨" },
-  { slug: "servicios",       nombre: "Servicios",         icono: "🛠️" },
+  { slug: "autos",           nombre: "Autos",             icono: "🚗" },
 ];
 
 const COLORES_MARCA = ["#F59E0B", "#EF4444", "#3B82F6", "#10B981", "#8B5CF6", "#EC4899", "#F97316", "#14B8A6"];

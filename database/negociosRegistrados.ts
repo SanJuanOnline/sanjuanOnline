@@ -40,11 +40,12 @@ const palabrasClave: Record<TipoCategoria, string[]> = {
   "comida-rapida": ["taco", "hamburguesa", "hot dog", "pizza", "alitas", "burrito", "torta", "antojito", "comida rapida", "fast food", "papas", "snack"],
   "restaurantes":  ["restaurante", "comida corrida", "cocina", "chef", "platillo", "menu del dia", "buffet", "comedor", "familiar"],
   "entretenimiento": ["bar", "antro", "karaoke", "billar", "boliche", "cine", "juego", "diversion", "evento", "fiesta", "musica en vivo"],
+  "servicios": ["abogado", "contador", "disenador", "fotografo", "maestro", "tutor", "consultor", "asesor", "servicio profesional", "notario", "arquitecto"],
   "mantenimiento": ["plomero", "electricista", "albanil", "pintor", "carpintero", "cerrajero", "reparacion", "mantenimiento", "arreglo", "instalacion"],
   "salud":         ["doctor", "medico", "dentista", "farmacia", "spa", "masaje", "terapia", "clinica", "hospital", "salud", "bienestar"],
   "mascotas":      ["veterinaria", "mascota", "perro", "gato", "alimento para mascotas", "peluqueria canina", "pet shop", "pet"],
   "hoteles":       ["hotel", "motel", "hostal", "habitacion", "hospedaje", "alojamiento", "cabana"],
-  "servicios":     ["abogado", "contador", "disenador", "fotografo", "maestro", "tutor", "consultor", "asesor", "servicio profesional"],
+  "autos":         ["taller", "mecanico", "refacciones", "llantas", "auto", "carro", "vehiculo", "lavado", "hojalateria", "pintura automotriz"],
 };
 
 export function detectarCategoria(giro: string): TipoCategoria | null {
