@@ -4,27 +4,38 @@ import { Negocio, TipoCategoria, TipoPlanSuscripcion } from "./tiposNegocios";
 
 const COL = "negocios";
 
+function mapearNegocio(d: any): Negocio {
+  const data = d.data ? d.data() : d;
+  return {
+    ...data,
+    id: d.id ?? data.id,
+    planSuscripcion: data.planSuscripcion ?? data.plan ?? "basico",
+    imagen: data.imagen ?? data.logo ?? "",
+    tipoEnlace: data.tipoEnlace ?? (data.tieneSitioWeb ? "externo" : "landing"),
+  } as Negocio;
+}
+
 export async function obtenerNegociosPorCategoria(categoria: TipoCategoria): Promise<Negocio[]> {
   const q = query(collection(db, COL), where("categoria", "==", categoria));
   const snap = await getDocs(q);
-  return snap.docs.map((d) => d.data() as Negocio);
+  return snap.docs.map(mapearNegocio);
 }
 
 export async function obtenerNegocioPorSlug(slug: string): Promise<Negocio | null> {
   const snap = await getDoc(doc(db, COL, slug));
-  return snap.exists() ? (snap.data() as Negocio) : null;
+  return snap.exists() ? mapearNegocio(snap) : null;
 }
 
 export async function obtenerTodosLosNegocios(): Promise<Negocio[]> {
   const snap = await getDocs(collection(db, COL));
-  return snap.docs.map((d) => d.data() as Negocio);
+  return snap.docs.map(mapearNegocio);
 }
 
 export async function obtenerNegocioPorUID(uid: string): Promise<Negocio | null> {
   const q = query(collection(db, COL), where("uid", "==", uid));
   const snap = await getDocs(q);
   if (snap.empty) return null;
-  return snap.docs[0].data() as Negocio;
+  return mapearNegocio(snap.docs[0]);
 }
 
 export async function actualizarPlan(slug: string, plan: TipoPlanSuscripcion): Promise<void> {
