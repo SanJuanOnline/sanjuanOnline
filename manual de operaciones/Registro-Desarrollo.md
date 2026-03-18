@@ -1530,4 +1530,6 @@ PROGRESO GENERAL: 87.5% (7 de 8 módulos completados)
 
 ---
 
-**Última actualización:** 17 Marzo 2026, 19:48
+**Última actualización:** 17 Marzo 2026, 23:28
+creamos en a cada categoria 3 negocios con url franquias y 3 negocios con daots efimerospara crear la LandigC
+lientes, para verificar que se renderizan correctante la informacionn desde la base de datos de firestone
