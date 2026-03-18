@@ -23,7 +23,7 @@ export default function GridNegocios({ negocios }: GridNegociosProps) {
   const negociosBasicos = negocios.filter(n => n.planSuscripcion === "basico");
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-12 bg-gradient-to-br from-blue-50/30 via-white to-amber-50/20 dark:from-slate-900/50 dark:via-slate-800/30 dark:to-blue-900/20 p-8 rounded-3xl">
       {/* Sección Destacados (VIP + Estándar) */}
       {negociosDestacados.length > 0 && (
         <div>
@@ -38,7 +38,7 @@ export default function GridNegocios({ negocios }: GridNegociosProps) {
       {/* Sección Básicos */}
       {negociosBasicos.length > 0 && (
         <div>
-          <div className="border-t border-slate-300 dark:border-slate-700 pt-8">
+          <div className="border-t border-blue-200/50 dark:border-slate-700 pt-8">
             <h3 className="text-2xl font-bold text-slate-700 dark:text-slate-300 mb-6">
               Más opciones
             </h3>

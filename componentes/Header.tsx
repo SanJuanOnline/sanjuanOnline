@@ -27,7 +27,9 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-slate-900 shadow-xl sticky top-0 z-40">
+      <header className="bg-gradient-to-r from-[#1e5ba8] via-[#2563eb] to-[#1e5ba8] shadow-xl sticky top-0 z-40" style={{
+        boxShadow: '0 4px 20px rgba(59, 130, 246, 0.4), 0 0 40px rgba(59, 130, 246, 0.2)'
+      }}>
         <div className="container mx-auto px-4 py-4">
           {/* Primera fila: Logo + Iconos */}
           <div className="flex items-center justify-between mb-4">

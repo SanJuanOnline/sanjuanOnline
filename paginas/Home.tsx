@@ -53,13 +53,16 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* SECCIÓN 1: HERO BANNER */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[70vh] md:min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background con overlay */}
         <div className="absolute inset-0 z-0">
           <img 
             src="/sanjuan.jpg" 
             alt="San Juan" 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center md:object-cover"
+            style={{
+              objectPosition: 'center 30%'
+            }}
             onError={(e) => {
               e.currentTarget.style.display = 'none';
             }}

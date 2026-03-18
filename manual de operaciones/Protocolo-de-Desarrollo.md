@@ -508,4 +508,4 @@ allow write: if request.auth != null;
 
 ---
 
-*Última actualización: 14 Marzo 2026*
+*Última actualización: 17 Marzo 2026, 23:08*

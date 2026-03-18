@@ -42,7 +42,26 @@ export default function AjustesContenido() {
               </a>
             </div>
             <div className="mt-8 pt-8 border-t dark:border-slate-600 text-center text-slate-500 dark:text-slate-400">
-              <p className="mb-2">Creado por <span className="font-bold text-slate-800 dark:text-white">Enrique Vargas</span></p>
+              <p className="mb-2 text-lg">
+                Creado por{" "}
+                <a 
+                  href="https://enriquevargas.vercel.app" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="font-black text-amber-400 hover:text-amber-300 transition-colors"
+                >
+                  Enrique
+                </a>
+                {" "}
+                <a 
+                  href="https://enriquevargas.vercel.app" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="font-black text-blue-400 hover:text-blue-300 transition-colors"
+                >
+                  Vargas
+                </a>
+              </p>
               <p className="text-sm">Versión 1.0.0</p>
             </div>
           </div>

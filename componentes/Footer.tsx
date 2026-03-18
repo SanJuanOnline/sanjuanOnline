@@ -38,9 +38,12 @@ export default function Footer() {
 
   return (
     <footer 
-      className={`bg-slate-900 text-white py-6 md:py-8 transition-opacity duration-300 mt-20 ${
+      className={`bg-gradient-to-r from-[#1e5ba8] via-[#2563eb] to-[#1e5ba8] text-white py-6 md:py-8 transition-opacity duration-300 mt-20 ${
         visible ? "opacity-100" : "opacity-0"
       }`}
+      style={{
+        boxShadow: '0 -4px 20px rgba(59, 130, 246, 0.4), 0 0 40px rgba(59, 130, 246, 0.2)'
+      }}
     >
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-6">
@@ -98,8 +101,25 @@ export default function Footer() {
         {/* Copyright */}
         <div className="border-t border-slate-800 pt-4 md:pt-6 text-center text-slate-400 text-xs md:text-sm">
           <p className="mb-1 md:mb-2">&copy; 2024 San Juan Online. Todos los derechos reservados.</p>
-          <p>
-            Creado por <span className="text-amber-400 font-semibold">Enrique Vargas</span>
+          <p className="text-base md:text-lg">
+            Creado por{" "}
+            <a 
+              href="https://enriquevargas.vercel.app" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="font-black text-amber-400 hover:text-amber-300 transition-colors"
+            >
+              Enrique
+            </a>
+            {" "}
+            <a 
+              href="https://enriquevargas.vercel.app" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="font-black text-white hover:text-amber-200 transition-colors"
+            >
+              Vargas
+            </a>
           </p>
         </div>
       </div>
