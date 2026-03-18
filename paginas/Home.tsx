@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Spinner from "../componentes/Spinner";
 import { ArrowRight, Ghost, HelpCircle, Trophy, Check, Star, Zap, Users, TrendingUp, Clock, ChevronRight, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { obtenerTodosLosNegocios } from "../database/serviciosFirestore";
+import { obtenerTodosLosNegocios, contarNegociosReales } from "../database/serviciosFirestore";
 
 export default function Home() {
   const [cargando, setCargando] = useState(true);
@@ -30,8 +30,7 @@ export default function Home() {
   // Cargar contador real desde Firestore
   useEffect(() => {
     const cargarContador = async () => {
-      const negocios = await obtenerTodosLosNegocios();
-      const registrados = negocios.length;
+      const registrados = await contarNegociosReales();
       setContadorLugares(Math.max(0, 100 - registrados));
     };
     cargarContador();

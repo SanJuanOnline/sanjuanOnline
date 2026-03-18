@@ -6,7 +6,7 @@ import LayoutDirectorio from "../../layouts/LayoutDirectorio";
 import FormularioRegistro from "../../componentes/FormularioRegistro";
 import ModalAuth from "../../componentes/ModalAuth";
 import { useAuth } from "../../context/AuthContext";
-import { obtenerTodosLosNegocios } from "../../database/serviciosFirestore";
+import { obtenerTodosLosNegocios, contarNegociosReales } from "../../database/serviciosFirestore";
 
 export default function RegistroPage() {
   const router = useRouter();
@@ -15,8 +15,7 @@ export default function RegistroPage() {
   const [registroExitoso, setRegistroExitoso] = useState(false);
 
   const cargarContador = async () => {
-    const negocios = await obtenerTodosLosNegocios();
-    const registrados = negocios.length;
+    const registrados = await contarNegociosReales();
     setContadorLugares(Math.max(0, 100 - registrados));
   };
 

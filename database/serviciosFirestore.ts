@@ -31,6 +31,12 @@ export async function obtenerTodosLosNegocios(): Promise<Negocio[]> {
   return snap.docs.map(mapearNegocio);
 }
 
+export async function contarNegociosReales(): Promise<number> {
+  const q = query(collection(db, COL), where("esDemostracion", "!=", true));
+  const snap = await getDocs(q);
+  return snap.size;
+}
+
 export async function obtenerNegocioPorUID(uid: string): Promise<Negocio | null> {
   const q = query(collection(db, COL), where("uid", "==", uid));
   const snap = await getDocs(q);
