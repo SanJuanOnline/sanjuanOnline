@@ -1393,3 +1393,141 @@ PROGRESO GENERAL: 87.5% (7 de 8 módulos completados)
 ---
 
 **Última actualización:** 16 Marzo 2026, 20:56
+
+---
+
+## 📅 Sesión: 17 Marzo 2026
+
+---
+
+## ✅ COMPLETADO HOY
+
+### Reestructuración del Formulario de Registro ✅
+
+**Problema identificado:**
+- Flujo del formulario era confuso
+- Pregunta de URL externa estaba al final
+- DOM se rompía después del registro exitoso
+- Contador no se actualizaba en tiempo real
+
+**Solución implementada:**
+
+#### 1. Nuevo flujo del formulario ✅
+- **Paso 1:** Nombre (genera slug en tiempo real)
+- **Paso 2:** Giro (detecta categoría automáticamente)
+- **Paso 3:** Logo (subir o usar generado con iniciales)
+- **Paso 4 (NUEVO):** ¿Ya tienes un sitio web?
+  - **Opción A:** "Sí, ya tengo mi sitio web"
+    - Input para URL externa
+    - **Termina aquí** → Solo guarda datos básicos (nombre, giro, categoría, logo, URL)
+    - No pide teléfonos, dirección ni descripción
+  - **Opción B:** "No, quiero crear mi landing aquí"
+    - Continúa con pasos 5-8:
+      - Paso 5: Color de marca
+      - Paso 6: Teléfonos (principal + extras + WhatsApp + Messenger)
+      - Paso 7: Dirección
+      - Paso 8: Descripción
+
+**Lógica:** Los primeros 3 pasos son necesarios para la TarjetaNegocio. Si tiene URL externa, no necesitamos el resto porque no vamos a generar landing interna.
+
+#### 2. Fix: DOM roto después de registro ✅
+**Problema:** Después del registro exitoso, el componente intentaba navegar pero rompía el DOM.
+
+**Solución:**
+- Agregado estado `registroExitoso` en `/app/registro/page.tsx`
+- Oculta el título cuando el registro es exitoso
+- Redirige a `/cuenta` después de 2 segundos (en lugar de al slug del negocio)
+- Evita conflictos de navegación
+- Actualiza el contador automáticamente después del registro
+
+#### 3. Contador dinámico actualizado ✅
+**Problema:** El contador iniciaba en 100 pero no se actualizaba hasta refrescar la página.
+
+**Solución:**
+- Función `cargarContador()` se ejecuta después del éxito del registro
+- El contador refleja el número real de negocios en Firestore
+- Fórmula: `100 - total de negocios registrados`
+- Se actualiza en tiempo real sin necesidad de refrescar
+
+#### 4. Validaciones mejoradas ✅
+- **Si tiene URL externa:** Solo valida nombre, giro, categoría y URL
+- **Si NO tiene URL:** Valida todos los campos (teléfonos, dirección, descripción)
+- Guarda datos mínimos cuando tiene URL externa
+- Validación de URL con `new URL()` para asegurar formato correcto
+
+### Archivos modificados:
+```
+componentes/
+  FormularioRegistro.tsx       ← Reestructurado completamente
+app/
+  registro/page.tsx            ← Fix DOM roto + actualización de contador
+```
+
+### Verificación de categorías ✅
+- Confirmado que todas las 9 categorías están correctamente conectadas
+- Flujo: Categoría → PaginaCategoria → GridNegocios → TarjetaNegocio
+- Todas leen desde Firestore correctamente
+- Grid ordena por plan (VIP/Estándar primero, Básicos después)
+
+---
+
+## 🚀 DEPLOY
+
+- **Commit:** `c848281` - "Reestructurar formulario: URL externa después de logo + Fix DOM roto + Contador dinámico"
+- **Push:** Exitoso a `main`
+- **Vercel:** Auto-deploy activado
+- **URL:** https://sanjuan-online.vercel.app
+
+---
+
+## 🚧 PENDIENTE — CONTINUAR MAÑANA
+
+### Módulo 8 — Mejoras y Optimizaciones (en progreso)
+
+**Prioridades:**
+1. [ ] Firebase Storage para imágenes reales (reemplazar base64 y URLs)
+2. [ ] Pasarela de pago real (Stripe/Mercado Pago)
+3. [ ] Personalizador visual (opcional)
+4. [ ] Testing completo del flujo end-to-end
+5. [ ] Agregar más negocios por categoría en Firestore
+
+**Mejoras opcionales:**
+- [ ] Notificaciones por email
+- [ ] Analytics y métricas
+- [ ] Preview en tiempo real en editores
+- [ ] Drag & drop para reordenar items
+
+---
+
+## 📊 ESTADO DEL PROYECTO
+
+```
+MÓDULOS COMPLETADOS:
+✅ Módulo 1 — Infraestructura y Home
+✅ Módulo 2 — Landings de Negocio
+✅ Módulo 3 — Directorio y Tarjetas
+✅ Módulo 4 — Datos y Firebase
+✅ Módulo 5 — Autenticación y Cuenta
+✅ Módulo 6 — Producción y Calidad (parcial)
+✅ Módulo 7 — Sistema Autogestionable
+
+MÓDULOS EN PROGRESO:
+⏳ Módulo 8 — Mejoras y Optimizaciones (87.5% completo)
+
+PROGRESO GENERAL: 87.5% (7 de 8 módulos completados)
+```
+
+---
+
+## 🎯 LOGROS DE LA SESIÓN
+
+✅ Formulario más intuitivo y rápido  
+✅ Flujo simplificado para negocios con URL externa  
+✅ DOM estable después del registro  
+✅ Contador dinámico en tiempo real  
+✅ Validaciones contextuales según tipo de landing  
+✅ Todas las categorías verificadas y funcionando  
+
+---
+
+**Última actualización:** 17 Marzo 2026, 19:48
