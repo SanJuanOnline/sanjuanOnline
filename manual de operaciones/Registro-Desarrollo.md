@@ -1184,3 +1184,212 @@ database/
 ---
 
 **Última actualización:** 16 Marzo 2026, 23:46
+
+---
+
+## 📅 Sesión: 16 Marzo 2026 (noche - FINAL - PARTE 2)
+
+---
+
+## ✅ COMPLETADO — CORRECCIONES Y PWA
+
+### Error de TypeScript corregido ✅
+- ✅ Error en `database/negociosRegistrados.ts` línea 125
+- ✅ Problema: `datos.urlExterna` podía ser `undefined`, pero tipo esperaba `string | null`
+- ✅ Solución: Usar operador `??` (nullish coalescing)
+  ```typescript
+  urlExterna: datos.tieneSitioWeb ? (datos.urlExterna ?? null) : null,
+  ```
+- ✅ Build en Vercel ahora exitoso ✅
+
+### PWA — Notificación de Actualización Automática ✅
+- ✅ Componente `componentes/ActualizacionPWA.tsx` creado
+  - Verifica actualizaciones cada 60 segundos
+  - Detecta cuando hay nueva versión del service worker
+  - Muestra alert con SweetAlert2
+  - Botones: "Actualizar ahora" o "Después"
+  - Al actualizar → recarga página con nueva versión
+- ✅ Archivo `public/sw-handler.js` creado
+  - Manejador de mensajes para service worker
+  - Recibe comando SKIP_WAITING del cliente
+- ✅ `app/layout.tsx` actualizado
+  - Importa `ActualizacionPWA`
+  - Renderiza componente en layout global
+- ✅ Flujo completo:
+  1. Usuario hace push a GitHub
+  2. Vercel detecta cambio y hace deploy
+  3. PWA detecta nueva versión automáticamente
+  4. Muestra notificación al usuario
+  5. Usuario puede actualizar inmediatamente o después
+
+### Archivos modificados:
+```
+componentes/
+  ActualizacionPWA.tsx                     ← NUEVO
+
+public/
+  sw-handler.js                            ← NUEVO
+
+app/
+  layout.tsx                               ← Importa ActualizacionPWA
+```
+
+### Verificación de PWA:
+- ✅ `public/manifest.json` — completo y correcto
+- ✅ `public/sw.js` — service worker con Workbox
+- ✅ Iconos — 192x192 y 512x512 presentes
+- ✅ Metadata — configurado en `app/layout.tsx`
+- ✅ PWA lista para PWABuilder
+
+---
+
+## 🚀 PRÓXIMOS PASOS — MÓDULO 8
+
+### FASE 21 — Firebase Storage para Imágenes
+**Objetivo:** Subir imágenes reales en lugar de URLs y base64
+
+**Tareas:**
+- [ ] Configurar Firebase Storage en consola
+- [ ] Función para subir logos (reemplazar base64)
+- [ ] Función para subir imágenes de productos
+- [ ] Función para subir imágenes de galería
+- [ ] Optimización automática de imágenes
+- [ ] URLs públicas persistentes
+- [ ] Actualizar editores para usar Storage
+
+**Estimado:** 2-3 horas
+
+### FASE 22 — Pasarela de Pago Real
+**Objetivo:** Integrar pago real en lugar de simulación
+
+**Tareas:**
+- [ ] Elegir pasarela (Stripe / Mercado Pago / PayPal)
+- [ ] Configurar cuenta y credenciales
+- [ ] Crear checkout de pago
+- [ ] Webhook para confirmar pagos
+- [ ] Actualizar plan automáticamente tras pago exitoso
+- [ ] Enviar email de confirmación
+- [ ] Manejo de renovaciones anuales
+- [ ] Dashboard de pagos en `/admin`
+
+**Estimado:** 3-4 horas
+
+### FASE 23 — Personalizador Visual (Opcional)
+**Objetivo:** Permitir cambiar colores, tipografía e imágenes de secciones
+
+**Tareas:**
+- [ ] Crear `componentes/editores/PersonalizadorVisual.tsx`
+- [ ] Selector de colores (primario y secundario)
+- [ ] Selector de tipografía (5 fuentes predefinidas)
+- [ ] Cambiar imágenes de banner y secciones
+- [ ] Preview en tiempo real
+- [ ] Guardar en Firestore
+- [ ] Aplicar en `LandingNegocio.tsx`
+
+**Estimado:** 1-2 horas
+
+### FASE 24 — Notificaciones y Emails (Opcional)
+**Objetivo:** Automatizar comunicación con usuarios y admin
+
+**Tareas:**
+- [ ] Configurar servicio de email (SendGrid/Resend)
+- [ ] Email al admin cuando hay nueva solicitud personalizada
+- [ ] Email al usuario cuando se aprueba su negocio
+- [ ] Email de recordatorio antes de vencimiento de plan
+- [ ] Notificaciones in-app en panel admin
+- [ ] Templates de emails profesionales
+
+**Estimado:** 2-3 horas
+
+### FASE 25 — Analytics y Métricas (Opcional)
+**Objetivo:** Tracking de uso y conversiones
+
+**Tareas:**
+- [ ] Tracking de visitas por negocio
+- [ ] Contador de clics en WhatsApp
+- [ ] Contador de clics en teléfono
+- [ ] Dashboard de estadísticas en `/admin`
+- [ ] Gráficas de crecimiento
+- [ ] Exportar reportes
+
+**Estimado:** 2-3 horas
+
+---
+
+## 📊 ESTADO DEL PROYECTO
+
+```
+MÓDULOS COMPLETADOS:
+✅ Módulo 1 — Infraestructura y Home
+✅ Módulo 2 — Landings de Negocio
+✅ Módulo 3 — Directorio y Tarjetas
+✅ Módulo 4 — Datos y Firebase
+✅ Módulo 5 — Autenticación y Cuenta
+✅ Módulo 6 — Producción y Calidad (parcial)
+✅ Módulo 7 — Sistema Autogestionable
+
+MÓDULOS EN PROGRESO:
+⏳ Módulo 8 — Mejoras y Optimizaciones (en progreso)
+  ├── FASE 21 — Firebase Storage (pendiente)
+  ├── FASE 22 — Pasarela de pago real (pendiente)
+  ├── FASE 23 — Personalizador Visual (pendiente)
+  ├── FASE 24 — Notificaciones (pendiente)
+  └── FASE 25 — Analytics (pendiente)
+
+PROGRESO GENERAL: 87.5% (7 de 8 módulos completados)
+```
+
+---
+
+## 🎯 PRIORIDADES PARA MAÑANA
+
+### Alta prioridad:
+1. **FASE 21 — Firebase Storage** (crítico para producción)
+2. **FASE 22 — Pasarela de pago real** (monetización)
+
+### Media prioridad:
+3. **FASE 23 — Personalizador Visual** (diferenciación)
+4. **Testing completo** en producción
+
+### Baja prioridad:
+5. **FASE 24 — Notificaciones** (mejora UX)
+6. **FASE 25 — Analytics** (métricas)
+
+---
+
+## 🌐 PRODUCCIÓN
+
+- **URL:** https://sanjuan-online.vercel.app
+- **Deploy:** Vercel (conectado a GitHub, auto-deploy en push a main)
+- **Dominio autorizado en Firebase:** `sanjuan-online.vercel.app`
+- **PWA:** Lista para PWABuilder ✅
+- **Estado:** Sistema autogestionable 100% funcional ✅
+
+---
+
+## 📝 NOTAS IMPORTANTES
+
+### Antes de producción real:
+- [ ] Cambiar reglas de Firestore (allow write: if request.auth != null)
+- [ ] Configurar Firebase Storage
+- [ ] Integrar pasarela de pago real
+- [ ] Agregar 5+ negocios por categoría para pruebas
+- [ ] Testing completo del flujo end-to-end
+- [ ] Optimizar imágenes y performance
+- [ ] Configurar dominio personalizado (opcional)
+
+### PWA — Listo para:
+- ✅ PWABuilder (generar APK para Android)
+- ✅ AppCreator24 (alternativa)
+- ✅ Publicar en Play Store (cuando tengas dinero)
+- ✅ Actualizaciones automáticas en tiempo real
+
+### Consideraciones técnicas:
+- Logos actualmente en base64 (temporal)
+- Imágenes de galería por URL (temporal)
+- Pago simulado (reemplazar por real)
+- Sin notificaciones automáticas (agregar después)
+
+---
+
+**Última actualización:** 16 Marzo 2026, 20:56
