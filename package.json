@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "subir-franquicias": "ts-node -r tsconfig-paths/register scripts/subirFranquicias.ts"
   },
   "dependencies": {
     "dotenv": "^17.3.1",
