@@ -1,6 +1,6 @@
 # Flujo de Operaciones — San Juan Online
 
-**Última actualización:** 16 Marzo 2026, 23:54
+**Última actualización:** 18 Marzo 2026
 
 ---
 
@@ -36,7 +36,7 @@ San Juan Online es un **directorio digital freemium** para negocios locales de l
            └── Grid de TarjetaNegocio.tsx
 
 3. Selecciona un negocio
-   ├── [EXTERNO] → abre URL externa en nueva pestaña (si tiene urlExterna)
+   ├── [EXTERNO] → abre URL externa en nueva pestaña (si tipoEnlace === "externo")
    └── [LANDING] → /[categoria]/[slug]
        └── LandingNegocio.tsx
            ├── Lee datos del negocio desde Firestore
@@ -56,23 +56,26 @@ San Juan Online es un **directorio digital freemium** para negocios locales de l
    └── Email + Contraseña → Firebase Auth
        └── Continúa al formulario del negocio
 
-3. /registro — Pasos 1-8: Datos del negocio
+3. /registro — Pasos 1-8: Datos del negocio (Ver: Formulario-Registro.md)
    ├── Paso 1: Nombre → genera slug en tiempo real (preview de URL)
-   ├── Paso 2: Giro → detecta categoría automáticamente
-   ├── Paso 3: Logo → subir o usar generado con iniciales
-   ├── Paso 4: Color de marca → paleta + preview con iniciales
-   ├── Paso 5: Teléfonos (hasta 3) + WhatsApp + Messenger
-   ├── Paso 6: Dirección
-   ├── Paso 7: Descripción (150 caracteres)
-   └── Paso 8: ¿Ya tienes sitio web?
-       ├── Sí → Input URL → Solo aparece en directorio (sin landing interna)
-       └── No → Genera landing con overlay bloqueado
+   ├── Paso 2: Giro → detecta categoría automáticamente con palabras clave
+   ├── Paso 3: Confirmar categoría → usuario confirma o cambia manualmente
+   ├── Paso 4: Logo → subir (Cloudinary), usar generado, o "no tengo logo"
+   ├── Paso 5: ¿Ya tienes sitio web?
+   │   ├── SÍ → Paso 6: URL Externa → FIN (datos mínimos)
+   │   └── NO → Continuar a pasos 7-8 (datos completos)
+   ├── Paso 7: Teléfonos (hasta 3) + WhatsApp + Messenger
+   └── Paso 8: Dirección + Descripción (mínimo 20 caracteres)
 
 4. Al enviar:
+   ├── Si tiene logo propio → sube a Cloudinary → guarda URL
    ├── Negocio guardado en Firestore con:
    │   ├── uid del usuario (vinculado a su cuenta)
    │   ├── planSuscripcion: "basico"
    │   ├── tipoLanding: "externa" | "interna"
+   │   ├── tipoEnlace: "externo" | "landing"
+   │   ├── urlExterna (si aplica)
+   │   ├── imagen (URL de Cloudinary o base64)
    │   └── slug único generado automáticamente
    └── Aparece automáticamente en su categoría (TarjetaNegocio variante Básica)
 

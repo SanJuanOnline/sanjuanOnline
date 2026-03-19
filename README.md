@@ -136,6 +136,8 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=tu_storage_bucket
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=tu_sender_id
 NEXT_PUBLIC_FIREBASE_APP_ID=tu_app_id
 NEXT_PUBLIC_ADMIN_ENABLED=true
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=tu_cloud_name
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=tu_upload_preset
 ```
 
 ---
@@ -202,5 +204,5 @@ Este proyecto es privado y propiedad de **Enrique Vargas**.
 
 ---
 
-**Última actualización:** 16 Marzo 2026
+**Última actualización:** 18 Marzo 2026
 # Build trigger

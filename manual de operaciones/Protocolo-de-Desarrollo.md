@@ -46,6 +46,8 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
 NEXT_PUBLIC_FIREBASE_APP_ID=
 NEXT_PUBLIC_ADMIN_ENABLED=true
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=
 ```
 
 ---
@@ -126,19 +128,26 @@ NEXT_PUBLIC_ADMIN_ENABLED=true
 
 | Fase | Descripción | Estado |
 |------|-------------|--------|
-| FASE 7 | Formulario de registro inteligente (6 pasos) | ✅ |
+| FASE 7 | Formulario de registro inteligente (8 pasos + Cloudinary) | ✅ |
 | FASE 7 | Panel Admin con tabs (Directorio / Nuevos Registros) | ✅ |
 | FASE 8 | Firebase/Firestore configurado y conectado | ✅ |
 | FASE 8 | 12 negocios migrados al Firestore | ✅ |
 | FASE 8 | Todas las páginas leen de Firestore | ✅ |
+| FASE 8.1 | Integración Cloudinary para subida de imágenes | ✅ |
+| FASE 8.2 | Soporte para URL externa (tipoEnlace: externo/landing) | ✅ |
 
 **Archivos clave:**
 - `lib/firebase.ts`
+- `lib/cloudinary.ts` ← NUEVO
 - `database/serviciosFirestore.ts`
 - `database/negociosRegistrados.ts`
 - `database/tiposRegistro.ts`
-- `componentes/FormularioRegistro.tsx`
+- `componentes/FormularioRegistro.tsx` ← ACTUALIZADO
+- `componentes/uilanding/TarjetaNegocio.tsx` ← ACTUALIZADO
 - `app/admin/page.tsx`
+
+**Documentación:**
+- Ver `manual de operaciones/Formulario-Registro.md` para detalles completos
 
 ---
 
