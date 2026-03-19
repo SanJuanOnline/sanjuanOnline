@@ -96,12 +96,12 @@ export default function FormularioRegistro({ contadorLugares, onExito }: Props) 
       return;
     }
     
-    // Validar tamaño
-    if (file.size > 2 * 1024 * 1024) {
+    // Validar tamaño (máximo 10MB - se comprimirá automáticamente)
+    if (file.size > 10 * 1024 * 1024) {
       Swal.fire({
         icon: "error",
         title: "Imagen muy pesada",
-        text: "La imagen debe pesar menos de 2MB",
+        text: "La imagen debe pesar menos de 10MB",
         confirmButtonColor: "#F59E0B",
       });
       return;
