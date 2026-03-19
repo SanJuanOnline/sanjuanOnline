@@ -48,5 +48,8 @@ Thumbs.db
 temp/
 tmp/
 
-#carpetas
-manual de operaciones
+# Carpetas privadas
+.kiro/
+manual de operaciones/
+borrar_registros.md
+test-cloudinary.html
