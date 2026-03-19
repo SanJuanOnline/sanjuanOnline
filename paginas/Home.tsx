@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Spinner from "../componentes/Spinner";
+import BuscadorNegocios from "../componentes/BuscadorNegocios";
 import { ArrowRight, Ghost, HelpCircle, Trophy, Check, Star, Zap, Users, TrendingUp, Clock, ChevronRight, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { obtenerTodosLosNegocios, contarNegociosReales } from "../database/serviciosFirestore";
+import { contarNegociosReales } from "../database/serviciosFirestore";
 
 export default function Home() {
   const [cargando, setCargando] = useState(true);
@@ -27,7 +28,7 @@ export default function Home() {
     }
   }, []);
 
-  // Cargar contador real desde Firestore
+  // Cargar contador real desde Firestore (optimizado con getCountFromServer)
   useEffect(() => {
     const cargarContador = async () => {
       const registrados = await contarNegociosReales();
@@ -87,6 +88,11 @@ export default function Home() {
               Miles de vecinos buscan cada día dónde comer, dónde comprar, a quién llamar para arreglar sus cosas... 
               <span className="text-white font-bold"> y tu negocio podría ser la respuesta.</span>
             </p>
+
+            {/* Buscador */}
+            <div className="mb-8">
+              <BuscadorNegocios />
+            </div>
 
             {/* Badge de urgencia */}
             <div className="inline-flex items-center gap-2 bg-red-500/20 border border-red-500 text-red-300 px-4 py-2 rounded-full mb-6 animate-pulse">

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { obtenerTodosLosNegocios } from "../../database/serviciosFirestore";
 import { Negocio } from "../../database/tiposNegocios";
 import {
   Settings, Store, Users, BarChart2, Bell, Tag,
@@ -40,14 +39,29 @@ function ModuloNegocios() {
   const [lista, setLista] = useState<Negocio[]>([]);
   const [registrados, setRegistrados] = useState<import("../../database/tiposRegistro").NegocioRegistrado[]>([]);
   const [tab, setTab] = useState<"directorio" | "registros">("directorio");
+  const [cargando, setCargando] = useState(false);
+  const [hayMas, setHayMas] = useState(true);
 
   useEffect(() => {
-    obtenerTodosLosNegocios().then(setLista);
+    cargarNegocios();
     if (typeof window !== "undefined") {
       const { obtenerNegociosRegistrados } = require("../../database/negociosRegistrados");
       setRegistrados(obtenerNegociosRegistrados());
     }
   }, []);
+
+  const cargarNegocios = async () => {
+    setCargando(true);
+    try {
+      const { negocios } = await require("../../database/serviciosFirestore").obtenerNegociosPaginados(50);
+      setLista(negocios);
+      setHayMas(negocios.length === 50);
+    } catch (error) {
+      console.error("Error cargando negocios:", error);
+    } finally {
+      setCargando(false);
+    }
+  };
 
   const toggleEstado = (id: number) => {}; // TODO: actualizar estado en Firestore
 

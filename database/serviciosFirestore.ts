@@ -1,8 +1,9 @@
-import { collection, doc, getDocs, getDoc, query, where, updateDoc, addDoc } from "firebase/firestore";
+import { collection, doc, getDocs, getDoc, query, where, updateDoc, addDoc, limit, startAfter, orderBy, DocumentSnapshot, getCountFromServer } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { Negocio, TipoCategoria, TipoPlanSuscripcion } from "./tiposNegocios";
 
 const COL = "negocios";
+const LIMITE_PAGINA = 20;
 
 function mapearNegocio(d: any): Negocio {
   const data = d.data ? d.data() : d;
@@ -15,10 +16,54 @@ function mapearNegocio(d: any): Negocio {
   } as Negocio;
 }
 
-export async function obtenerNegociosPorCategoria(categoria: TipoCategoria): Promise<Negocio[]> {
-  const q = query(collection(db, COL), where("categoria", "==", categoria));
+// ─── CONSULTAS OPTIMIZADAS CON PAGINACIÓN ────────────────────────────────────
+
+export async function obtenerNegociosPorCategoria(
+  categoria: TipoCategoria,
+  limitePagina: number = LIMITE_PAGINA
+): Promise<Negocio[]> {
+  const q = query(
+    collection(db, COL),
+    where("categoria", "==", categoria),
+    orderBy("nombre"),
+    limit(limitePagina)
+  );
   const snap = await getDocs(q);
   return snap.docs.map(mapearNegocio);
+}
+
+export async function obtenerNegociosPaginados(
+  limitePagina: number = LIMITE_PAGINA,
+  ultimoDoc?: DocumentSnapshot
+): Promise<{ negocios: Negocio[]; ultimoDoc: DocumentSnapshot | null }> {
+  let q = query(
+    collection(db, COL),
+    orderBy("nombre"),
+    limit(limitePagina)
+  );
+
+  if (ultimoDoc) {
+    q = query(q, startAfter(ultimoDoc));
+  }
+
+  const snap = await getDocs(q);
+  return {
+    negocios: snap.docs.map(mapearNegocio),
+    ultimoDoc: snap.docs[snap.docs.length - 1] || null,
+  };
+}
+
+export async function buscarNegocios(termino: string): Promise<Negocio[]> {
+  // Búsqueda simple por nombre (case-insensitive aproximado)
+  const snap = await getDocs(collection(db, COL));
+  const todos = snap.docs.map(mapearNegocio);
+  
+  const terminoLower = termino.toLowerCase();
+  return todos.filter(n => 
+    n.nombre.toLowerCase().includes(terminoLower) ||
+    n.descripcion?.toLowerCase().includes(terminoLower) ||
+    n.categoria.toLowerCase().includes(terminoLower)
+  );
 }
 
 export async function obtenerNegocioPorSlug(slug: string): Promise<Negocio | null> {
@@ -26,6 +71,7 @@ export async function obtenerNegocioPorSlug(slug: string): Promise<Negocio | nul
   return snap.exists() ? mapearNegocio(snap) : null;
 }
 
+// ⚠️ DEPRECADO - Solo usar en admin con precaución
 export async function obtenerTodosLosNegocios(): Promise<Negocio[]> {
   const snap = await getDocs(collection(db, COL));
   return snap.docs.map(mapearNegocio);
@@ -33,8 +79,8 @@ export async function obtenerTodosLosNegocios(): Promise<Negocio[]> {
 
 export async function contarNegociosReales(): Promise<number> {
   const q = query(collection(db, COL), where("esDemostracion", "!=", true));
-  const snap = await getDocs(q);
-  return snap.size;
+  const snapshot = await getCountFromServer(q);
+  return snapshot.data().count;
 }
 
 export async function obtenerNegocioPorUID(uid: string): Promise<Negocio | null> {
