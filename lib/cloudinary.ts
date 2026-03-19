@@ -88,7 +88,6 @@ export async function subirImagenCloudinary(file: File): Promise<string> {
   const formData = new FormData();
   formData.append("file", fileToUpload);
   formData.append("upload_preset", uploadPreset);
-  formData.append("folder", "sanjuanonline");
 
   try {
     const response = await fetch(
