@@ -100,14 +100,14 @@ function slugUnico(base: string): string {
 export async function agregarNegocio(datos: DatosFormulario): Promise<NegocioRegistrado> {
   const telefonos = [datos.telefonoPrincipal, datos.telefonoExtra1, datos.telefonoExtra2].filter(Boolean);
 
-  const nuevo: NegocioRegistrado = {
-    id: generarUUID(), // Firebase sobreescribirá con su propio ID
+  const nuevo: any = {
     slug: slugUnico(generarSlug(datos.nombre)),
     nombre: datos.nombre,
     giro: datos.giro,
     descripcion: datos.descripcion,
     categoria: datos.categoria,
-    logo: datos.logoBase64 || null, // Guardar base64 temporalmente
+    imagen: datos.logoBase64 || "", // Campo correcto para Negocio
+    logo: datos.logoBase64 || null, // Mantener compatibilidad
     usarLogoGenerado: datos.usarLogoGenerado,
     colorMarca: datos.colorMarca,
     telefonos,
@@ -115,15 +115,16 @@ export async function agregarNegocio(datos: DatosFormulario): Promise<NegocioReg
     messenger: datos.messenger || null,
     direccion: datos.direccion,
     plan: "gratis",
-    estado: "pendiente",
+    planSuscripcion: "basico", // Campo correcto para Negocio
+    estado: "activo", // Cambiar a activo para que aparezca inmediatamente
     fechaRegistro: new Date().toISOString(),
     visitas: 0,
     clicksTelefono: 0,
     clicksWhatsApp: 0,
-    // NUEVOS CAMPOS
     tieneSitioWeb: datos.tieneSitioWeb,
     urlExterna: datos.tieneSitioWeb ? (datos.urlExterna ?? null) : null,
     tipoLanding: datos.tieneSitioWeb ? "externa" : "interna",
+    tipoEnlace: datos.tieneSitioWeb ? "externo" : "landing", // Campo correcto para Negocio
   };
 
   const docRef = await addDoc(collection(db, "negocios"), nuevo);

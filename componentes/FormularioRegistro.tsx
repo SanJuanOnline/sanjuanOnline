@@ -6,6 +6,7 @@ import { generarSlug, detectarCategoria, formatearTelefono, obtenerIniciales, ag
 import { TipoCategoria } from "../database/tiposNegocios";
 import { DatosFormulario } from "../database/tiposRegistro";
 import { Sparkles, Store, Phone, MapPin, Check, X, Plus, Trash2, Upload, Image as ImageIcon } from "lucide-react";
+import { subirImagenCloudinary } from "../lib/cloudinary";
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 
@@ -203,12 +204,30 @@ export default function FormularioRegistro({ contadorLugares, onExito }: Props) 
       // Guardar con datos mínimos
       setEnviando(true);
       try {
+        let urlImagen: string | undefined;
+        
+        // Si hay un archivo de logo, subirlo a Cloudinary
+        if (logoFile) {
+          try {
+            urlImagen = await subirImagenCloudinary(logoFile);
+          } catch (error) {
+            setEnviando(false);
+            Swal.fire({
+              icon: "error",
+              title: "Error al subir imagen",
+              text: "No se pudo subir el logo. Intenta de nuevo.",
+              confirmButtonColor: "#F59E0B",
+            });
+            return;
+          }
+        }
+        
         const datosMinimos = {
           nombre: datos.nombre,
           giro: datos.giro,
           categoria: datos.categoria,
           colorMarca: datos.colorMarca,
-          logoBase64: logoPreview || undefined,
+          logoBase64: urlImagen || logoPreview || undefined,
           usarLogoGenerado: datos.usarLogoGenerado,
           tieneSitioWeb: true,
           urlExterna: datos.urlExterna,
@@ -332,9 +351,27 @@ export default function FormularioRegistro({ contadorLugares, onExito }: Props) 
     setEnviando(true);
     
     try {
+      let urlImagen: string | undefined;
+      
+      // Si hay un archivo de logo, subirlo a Cloudinary
+      if (logoFile) {
+        try {
+          urlImagen = await subirImagenCloudinary(logoFile);
+        } catch (error) {
+          setEnviando(false);
+          Swal.fire({
+            icon: "error",
+            title: "Error al subir imagen",
+            text: "No se pudo subir el logo. Intenta de nuevo.",
+            confirmButtonColor: "#F59E0B",
+          });
+          return;
+        }
+      }
+      
       const datosConLogo = {
         ...datos,
-        logoBase64: logoPreview || undefined,
+        logoBase64: urlImagen || logoPreview || undefined,
       };
       
       const negocio = await agregarNegocio(datosConLogo);
