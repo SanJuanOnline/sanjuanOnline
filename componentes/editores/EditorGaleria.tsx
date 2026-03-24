@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Plus, Trash2, Save, Image as ImageIcon } from "lucide-react";
+import { Plus, Trash2, Save, Image as ImageIcon, Upload } from "lucide-react";
 import Swal from "sweetalert2";
+import { subirImagenCloudinary } from "../../lib/cloudinary";
 
 interface ItemGaleria {
   id: string;
@@ -19,6 +20,49 @@ const MAX_IMAGENES = 12;
 export default function EditorGaleria({ galeria: galeriaInicial, onGuardar, onVolver }: Props) {
   const [galeria, setGaleria] = useState<ItemGaleria[]>(galeriaInicial || []);
   const [guardando, setGuardando] = useState(false);
+  const [subiendo, setSubiendo] = useState(false);
+
+  const subirArchivo = async () => {
+    if (galeria.length >= MAX_IMAGENES) {
+      Swal.fire({
+        icon: "warning",
+        title: "Límite alcanzado",
+        text: `Solo puedes agregar hasta ${MAX_IMAGENES} imágenes`,
+        confirmButtonColor: "#F59E0B",
+      });
+      return;
+    }
+
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+
+      setSubiendo(true);
+      try {
+        const url = await subirImagenCloudinary(file);
+        setGaleria([...galeria, { id: Date.now().toString(), url }]);
+        Swal.fire({
+          icon: "success",
+          title: "¡Imagen subida!",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (error: any) {
+        Swal.fire({
+          icon: "error",
+          title: "Error al subir",
+          text: error.message,
+          confirmButtonColor: "#F59E0B",
+        });
+      } finally {
+        setSubiendo(false);
+      }
+    };
+    input.click();
+  };
 
   const agregarImagen = () => {
     if (galeria.length >= MAX_IMAGENES) {
@@ -133,6 +177,27 @@ export default function EditorGaleria({ galeria: galeriaInicial, onGuardar, onVo
         </button>
       </div>
 
+      {/* Botones de acción */}
+      {galeria.length < MAX_IMAGENES && (
+        <div className="flex gap-3 mb-6">
+          <button
+            onClick={subirArchivo}
+            disabled={subiendo}
+            className="flex-1 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white font-bold px-6 py-3 rounded-xl flex items-center justify-center gap-2"
+          >
+            <Upload className="w-5 h-5" />
+            {subiendo ? "Subiendo..." : "Subir Archivo"}
+          </button>
+          <button
+            onClick={agregarImagen}
+            className="flex-1 border-2 border-amber-500 text-amber-500 hover:bg-amber-50 dark:hover:bg-slate-800 font-bold px-6 py-3 rounded-xl flex items-center justify-center gap-2"
+          >
+            <Plus className="w-5 h-5" />
+            Agregar URL
+          </button>
+        </div>
+      )}
+
       {/* Grid de imágenes */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
         {galeria.map((item) => (
@@ -160,17 +225,6 @@ export default function EditorGaleria({ galeria: galeriaInicial, onGuardar, onVo
             )}
           </div>
         ))}
-
-        {/* Botón agregar */}
-        {galeria.length < MAX_IMAGENES && (
-          <button
-            onClick={agregarImagen}
-            className="aspect-square border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-amber-400 dark:hover:border-amber-400 rounded-xl flex flex-col items-center justify-center gap-2 text-slate-500 dark:text-slate-400 hover:text-amber-500 transition-colors"
-          >
-            <Plus className="w-8 h-8" />
-            <span className="text-sm font-semibold">Agregar</span>
-          </button>
-        )}
       </div>
 
       {galeria.length === 0 && (
@@ -179,13 +233,23 @@ export default function EditorGaleria({ galeria: galeriaInicial, onGuardar, onVo
           <p className="text-slate-500 dark:text-slate-400 mb-4">
             Aún no has agregado imágenes a tu galería
           </p>
-          <button
-            onClick={agregarImagen}
-            className="bg-amber-500 hover:bg-amber-600 text-white font-bold px-6 py-3 rounded-xl inline-flex items-center gap-2"
-          >
-            <Plus className="w-5 h-5" />
-            Agregar Primera Imagen
-          </button>
+          <div className="flex gap-3 justify-center">
+            <button
+              onClick={subirArchivo}
+              disabled={subiendo}
+              className="bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white font-bold px-6 py-3 rounded-xl inline-flex items-center gap-2"
+            >
+              <Upload className="w-5 h-5" />
+              {subiendo ? "Subiendo..." : "Subir Archivo"}
+            </button>
+            <button
+              onClick={agregarImagen}
+              className="border-2 border-amber-500 text-amber-500 hover:bg-amber-50 dark:hover:bg-slate-800 font-bold px-6 py-3 rounded-xl inline-flex items-center gap-2"
+            >
+              <Plus className="w-5 h-5" />
+              Agregar URL
+            </button>
+          </div>
         </div>
       )}
     </div>

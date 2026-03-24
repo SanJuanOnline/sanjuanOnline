@@ -810,6 +810,15 @@ export default function FormularioRegistro({ contadorLugares, onExito }: Props) 
           </>
         )}
       </form>
+      
+      {/* Diagnóstico temporal */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="mt-4 p-3 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+          <strong>Cloudinary Config:</strong>
+          <div>Cloud: {process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "❌"}</div>
+          <div>Preset: {process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "❌"}</div>
+        </div>
+      )}
     </div>
   );
 }
